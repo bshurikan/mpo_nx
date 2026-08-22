@@ -4,7 +4,7 @@
 
 Unofficial homebrew port of **Metroid Prime Origins** (Lv.4 Games, GameMaker Studio 2 VM) for modded Nintendo Switch.
 
-This repository contains **only the Switch wrapper** — no game data and no GameMaker runner binary. You must supply those yourself.
+This repository contains **only the Switch wrapper** - no game data and no GameMaker runner binary. You must supply those yourself.
 
 ## Quick start (Windows)
 
