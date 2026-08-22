@@ -44,14 +44,14 @@ sdmc:/switch/mpo_nx/
 
 | Key | Default | Notes |
 |---|---|---|
-| `vsync` | `0` | Keep off — vsync locks gameplay to ~30 fps |
+| `vsync` | `0` | Keep off - vsync locks gameplay to ~30 fps/50% speed |
 | `show_fps` | `0` | Overlay off by default |
 | `docked_clocks` | `1` | Max allowed GPU in handheld |
 | `screen_width/height` | `-1` | Auto (720p handheld, 1080p docked) |
 
 ## Performance
 
-Without source code or YYC, expect ~75% of PC movement speed and occasional hitches. This is not the definitive way to play Origins.
+Without source code or YYC, expect ~75% of PC movement speed and occasional hitches. Playable but not the definitive way to play Origins (PC, Steam deck or similar recommended).
 
 ## Building from source
 
