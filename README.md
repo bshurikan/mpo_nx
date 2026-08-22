@@ -12,7 +12,7 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 1. Download **[mpo-switch-release.zip](https://github.com/bshurikan/mpo_nx/releases)** 
 2. Extract the zip.
 3. Have ready:
-   - Your **Metroid Prime Origins 1.0.1 Windows** folder (must include `data.win`)
+   - Your **Metroid Prime Origins 1.0.1 (or Later) Windows** folder (must include `data.win`)
    - A **Castlevania ReVamped** Android APK that includes ARM64 `libyoyo.so` ([v0.1.16 VM](https://github.com/eboody/Castlevania-ReVamped-Open-Source-Edition/releases/tag/v0.1.16-verified-touch-gamepad) is the known-good donor; ReVamped’s *game* is open source, the runner binary is still YoYo’s)
 4. Double-click **`tools/Prepare SD Card.bat`**.
 5. Select the **Origins Windows folder**, then the **Castlevania Android APK**.
