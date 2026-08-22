@@ -1,4 +1,6 @@
-# Metroid Prime Origins — Nintendo Switch
+<div align="center"><img width="256" height="256" alt="mpo_icon_256" src="https://github.com/user-attachments/assets/9a0a7c79-5328-42c8-823e-68a8d28f5f03" /></div>
+
+# Metroid Prime Origins - Nintendo Switch Port
 
 Unofficial homebrew port of **Metroid Prime Origins** (Lv.4 Games, GameMaker Studio 2 VM) for modded Nintendo Switch.
 
