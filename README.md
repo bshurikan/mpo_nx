@@ -8,7 +8,7 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 
 ## Quick start (Windows)
 
-1. Download **mpo-switch-release.zip** 
+1. Download **[mpo-switch-release.zip](https://github.com/bshurikan/mpo_nx/releases)** 
 2. Extract the zip.
 3. Have ready:
    - Your **Metroid Prime Origins 1.0.1 Windows** folder (must include `data.win`)
