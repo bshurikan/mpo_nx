@@ -51,7 +51,7 @@ sdmc:/switch/mpo_nx/
 
 ## Performance
 
-Without source code or YYC, expect ~75% of PC movement speed and occasional hitches. Playable but not the definitive way to play Origins (PC, Steam deck or similar recommended).
+Currently this port uses VM as there is no source code or YYC available (please let me know if this changes), unfortunately this caps performance at ~75% of PC movement speed and occasional hitches. It is 100% playable but not the definitive way to enjoy Origins (PC, Steam deck or similar recommended).
 
 ## Building from source
 
