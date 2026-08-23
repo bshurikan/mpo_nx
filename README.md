@@ -69,4 +69,4 @@ Produces `mpo_nx.nro`.
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
 - Metroid Prime Origins by Lv.4 Games (fan project). Not affiliated.
-- Compatible VM runner sourced by the user from Castlevania ReVamped Android (bytecode 17).
+- Compatible VM runner sourced from Castlevania ReVamped Android (bytecode 17).
