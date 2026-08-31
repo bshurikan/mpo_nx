@@ -3,19 +3,18 @@
 
 # Metroid Prime Origins - Nintendo Switch Port
 
-Unofficial homebrew port of **[Metroid Prime Origins](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/)** Fan Game (Lv.4 Games, GameMaker Studio 2 VM) for modded Nintendo Switch.
+Unofficial homebrew port of **[Metroid Prime Origins](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/)** Fan Game (Lv.4 Games, GameMaker Studio 2 YYC) for modded Nintendo Switch.
 
 This repository contains **only the Switch wrapper** - no game data and no GameMaker runner binary. You must supply those yourself.
 
 ## Quick start (Windows)
 
-1. Download **[mpo-switch-release.zip](https://github.com/bshurikan/mpo_nx/releases)** 
+1. Download Latest **[mpo-switch-release.zip](https://github.com/bshurikan/mpo_nx/releases)** 
 2. Extract the zip.
 3. Have ready:
-   - Your **Metroid Prime Origins 1.0.1 (or later) Windows** folder (must include `data.win`)
-   - A **Castlevania ReVamped** Android APK that includes ARM64 `libyoyo.so` ([v0.1.16 VM](https://github.com/eboody/Castlevania-ReVamped-Open-Source-Edition/releases/tag/v0.1.16-verified-touch-gamepad) is the known-good donor; ReVamped’s *game* is open source, the runner binary is still YoYo’s)
-4. Double-click **`tools/Prepare SD Card.bat`**.
-5. Select the **Origins Windows folder**, then the **Castlevania Android APK**.
+   - Your **Metroid Prime Origins 1.5 (or later) APK**    
+4. Double-click **`tools/Prepare SD Card YYC.bat`**.
+5. Select the **Origins APK**.
 6. Copy the generated **`sd_card/mpo_nx/`** folder to your SD card as **`switch/mpo_nx/`**.
 7. Launch **`mpo_nx.nro`** with **full RAM** (hold **R** while opening a title, or use a forwarder).
 
@@ -27,9 +26,9 @@ sdmc:/switch/mpo_nx/
   config.txt              ← wrapper
   sdl2.txt                ← wrapper
   gamecontrollerdb.txt    ← wrapper
-  game.apk                ← built by prep tool from your Origins files
-  libyoyo.so              ← from your Castlevania donor APK
-  assets/                 ← from your Origins files
+  game.apk                ← built by prep tool from your Origins APK
+  libyoyo.so              ← from Origins APK
+  assets/                 ← from your Origins APK
     game.droid
     BGM/
     ...
@@ -52,7 +51,7 @@ sdmc:/switch/mpo_nx/
 
 ## Performance
 
-Currently this port uses VM as there is no source code or YYC available (please let me know if this changes), unfortunately this caps performance at ~75% of PC movement speed and occasional hitches. It is 100% playable but not the definitive way to enjoy Origins (PC, Steam deck or similar recommended).
+As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with Lv.4 to release the Android version), this allows for full performance 100% full speed except in some rooms with many sprites. It is 100% playable, enjoy! 
 
 ## Building from source
 
