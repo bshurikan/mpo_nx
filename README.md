@@ -12,7 +12,7 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 1. Download Latest **[mpo-switch-release.zip](https://github.com/bshurikan/mpo_nx/releases)** 
 2. Extract the zip.
 3. Have ready:
-   - Your **Metroid Prime Origins 1.5 (or later) APK**    
+   - Your **[Metroid Prime Origins 1.5 (or later) APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) *hint: Discord**    
 4. Double-click **`tools/Prepare SD Card YYC.bat`**.
 5. Select the **Origins APK**.
 6. Copy the generated **`sd_card/mpo_nx/`** folder to your SD card as **`switch/mpo_nx/`**.
