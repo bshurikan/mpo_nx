@@ -18,7 +18,7 @@ You need:
 
 ---
 
-### Method A - Easy (Windows prep script)
+### Method A - Easy (Automatic prep script, Windows only)
 
 Easiest option if you are on Windows and the script runs for you.
 
@@ -31,7 +31,7 @@ Easiest option if you are on Windows and the script runs for you.
 
 ---
 
-### Method B - Manual (any OS)
+### Method B - Moderate (Manual procedure, any OS)
 
 1. Extract **`mpo-switch-release.zip`**. You should have an **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
