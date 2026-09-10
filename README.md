@@ -13,7 +13,8 @@ You need:
 
 1. **`mpo-switch-release.zip`** (or this repo) from [GitHub Releases](https://github.com/bshurikan/mpo_nx/releases) — wrapper + config + tools  
 2. Your [Metroid Prime Origins v1.1.1 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Switch Supported version) Hint: Discord
-**Important: ** Lv.4 revised the input system in v1.1.2 and dropped support for switch - inputs will be broken! So stick with v1.1.1 until this is resolved. 
+   
+**Important:** Lv.4 revised the input system in v1.1.2 and dropped support for switch - inputs will be broken! So stick with v1.1.1 until this is resolved. 
 
 ---
 
