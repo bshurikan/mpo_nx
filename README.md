@@ -14,18 +14,18 @@ You need:
 1. **`mpo-switch-release.zip`** (or this repo) from [GitHub Releases](https://github.com/bshurikan/mpo_nx/releases) — wrapper + config + tools  
 2. Your [Metroid Prime Origins v1.1.1 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
    
-**Important:** Lv.4 revised the input system in v1.1.2 and dropped support for switch - inputs will be broken! So stick with v1.1.1 until this is resolved. 
+**Important:** Lv.4 is revising the input system for v1.1.2 and dropping support for switch - inputs will be broken! So stick with v1.1.1 until this is resolved. 
 
 ---
 
-### Method A - Automatic (Windows prep script)
+### Method A - Easy (Windows prep script)
 
-Best if you are on Windows and the script runs successfully.
+Easiest option if you are on Windows and the script runs for you.
 
 1. Extract **`mpo-switch-release.zip`**.
-2. Double-click **`tools/Prepare SD Card.bat`**.
+2. Double-click and run **`tools/Prepare SD Card.bat`**.
 3. Select your **Metroid Prime Origins Android APK** when prompted.
-4. Copy the generated **`sd_card/mpo_nx/`** folder to your SD card as **`switch/mpo_nx/`**.
+4. Copy the generated **`sd_card/mpo_nx/`** folder to **`switch/mpo_nx/`** on your SD card. 
 
 > If Method A doesn't work for you use Method B instead.
 
@@ -33,15 +33,15 @@ Best if you are on Windows and the script runs successfully.
 
 ### Method B - Manual (any OS)
 
-1. Extract **`mpo-switch-release.zip`**. You should have an **`mpo_nx/`** folder with at least:
+1. Extract **`mpo-switch-release.zip`**. You should have an **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
    - `config.txt`
    - `gamecontrollerdb.txt`
    - `sdl2.txt`
-2. Copy / rename your **Origins Android YYC APK** into it as **`game.apk`**.
+2. Copy / rename your **Origins Android YYC APK** into the folder as **`game.apk`**.
 3. Open **`game.apk`** with any zip tool (7-Zip, WinRAR, macOS Archive Utility, etc.) and extract:
-   - **`lib/arm64-v8a/libyoyo.so`** → place as **`mpo_nx/libyoyo.so`**
-   - The entire **`assets/`** folder → place as **`mpo_nx/assets/`**
+   - **`lib/arm64-v8a/libyoyo.so`** → **`mpo_nx/libyoyo.so`**
+   - The entire **`assets/`** folder → **`mpo_nx/assets/`**
 4. Copy **`sdl2.txt`** from the release / `mpo_nx` folder into **`mpo_nx/assets/sdl2.txt`** as well (overwrite if the APK already has one). This helps Switch gamepad mapping on YYC.
 5. Confirm **`config.txt`** has **`input_profile 1`** (required for YYC / Input 10; wrapper default).
 6. Copy the finished **`mpo_nx/`** folder to your SD card as **`switch/mpo_nx/`**.
