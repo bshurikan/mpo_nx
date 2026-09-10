@@ -33,16 +33,16 @@ Easiest option if you are on Windows and the script runs for you.
 
 ### Method B - Moderate (Manual procedure, any OS)
 
-1. Extract **`mpo-switch-release.zip`**. You should have an **`mpo_nx/`** folder with:
+1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
    - `config.txt`
    - `gamecontrollerdb.txt`
    - `sdl2.txt`
-2. Copy / rename your **Origins Android YYC APK** into the folder as **`game.apk`**.
+2. Copy **Origins Android YYC APK** into **`mpo_nx/`** and rename to **`game.apk`**.
 3. Open **`game.apk`** with any zip tool (7-Zip, WinRAR, macOS Archive Utility, etc.) and extract:
    - **`lib/arm64-v8a/libyoyo.so`** → **`mpo_nx/libyoyo.so`**
    - The entire **`assets/`** folder → **`mpo_nx/assets/`**
-4. Copy **`sdl2.txt`** from the release / `mpo_nx` folder into **`mpo_nx/assets/sdl2.txt`** as well (overwrite if the APK already has one). This helps Switch gamepad mapping on YYC.
+4. Copy **`sdl2.txt`** from the release folder into **`mpo_nx/assets/sdl2.txt`** as well (overwrite if the APK already has one). This helps Switch gamepad mapping on YYC.
 5. Confirm **`config.txt`** has **`input_profile 1`** (required for YYC / Input 10; wrapper default).
 6. Copy the finished **`mpo_nx/`** folder to your SD card as **`switch/mpo_nx/`**.
 
