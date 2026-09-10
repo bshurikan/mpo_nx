@@ -78,8 +78,8 @@ sdmc:/switch/mpo_nx/
 
 | Key | Default | Notes |
 |-----|---------|-------|
-| `vsync` | `0` | Keep off — vsync can lock pacing ~30 fps |
 | `show_fps` | `1` | On-screen FPS counter |
+| `vsync` | `0` | Keep off — vsync can lock pacing ~30 fps |
 | `docked_clocks` | `1` | Higher GPU in handheld when Horizon allows (~460; 768 needs sys-clk) |
 | `screen_width/height` | `-1` | Auto (720p handheld, 1080p docked) |
 | `input_profile` | `1` | YYC / Input 10 (forced) |
