@@ -12,10 +12,8 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 You need:
 
 1. **`mpo-switch-release.zip`** (or this repo) from [GitHub Releases](https://github.com/bshurikan/mpo_nx/releases) — wrapper + config + tools  
-2. Your [Metroid Prime Origins v1.1.1 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
+2. Your [Metroid Prime Origins v1.1.2 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
    
-**Important:** Lv.4 is revising the input system for v1.1.2 and dropping support for switch - inputs will be broken! So stick with v1.1.1 until this is resolved. 
-
 ---
 
 ### Method A - Easy (Automatic prep script, Windows only)
