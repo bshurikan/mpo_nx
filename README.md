@@ -71,7 +71,7 @@ sdmc:/switch/mpo_nx/
 | **Plus (+)** | Menu / pause |
 | **L3 + R3** | **NX Options** menu |
 
-<img width="700" alt="Metroid_Prime_Origins_20260921_115253_00" src="https://github.com/user-attachments/assets/44fc3428-3ca5-4c48-b352-066d1ba0607e" />
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/aeecc4c2-65f7-4eaf-84cd-c088171c2af5" />
 
 ## Configuration (`config.txt`)
 
