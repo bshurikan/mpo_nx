@@ -30,6 +30,7 @@ Easiest option if you are on Windows and the script runs for you.
 ---
 
 ### Method B - Moderate (Manual procedure, any OS)
+> **Important:** this method does not include the automatic teleport-mod patch. Prefer Method A, or run `tools/prepare_sd.ps1` so `patches/ship_teleport_yyc_1.1.2.json` is applied.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
