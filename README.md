@@ -1,4 +1,4 @@
-<div align="center"><img width="686" height="386" alt="image" src="https://github.com/user-attachments/assets/efcb91f0-42bf-4cc6-89c8-1b5d99ba2b20" />
+<div align="center"><img width="256" height="256" alt="G" src="https://github.com/user-attachments/assets/b7fd3544-5a0b-4818-ad73-82d511c290ad" />
 </div>
 
 # Metroid Prime Origins - Nintendo Switch Port
