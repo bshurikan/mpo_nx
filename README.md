@@ -20,7 +20,7 @@ Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
 
 ### NEW Method A - Super Easy (Universal web app, any OS) - recommended
 
-Patches the teleport mods automatically. Nothing is uploaded; prep runs on your PC.
+Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; prep runs on your PC.
 
 1. Open **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
 2. Drop your **Origins 1.1.2+ APK** and click **Prepare SD**
@@ -41,7 +41,7 @@ Same result as the web tool, using the release zip.
 ---
 
 ### Method B - Moderate (Manual procedure, any OS)
-> **Important:** Manual installs do **not** apply the teleport-mod patch. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
+> **Important:** Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
