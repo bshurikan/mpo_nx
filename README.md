@@ -11,8 +11,6 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 
 You need:
 
-1. This repo / a release zip **or** the [web Prepare SD](https://bshurikan.github.io/mpo_nx/) tool
-
 1. This repo / a release zip **or** the [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool 
 2. Your [Metroid Prime Origins v1.1.2 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
 
