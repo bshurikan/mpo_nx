@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Metroid Prime Origins NX</title>
+    <meta
+      name="description"
+      content="Prepare a Switch SD folder from your Metroid Prime Origins 1.1.2 APK in the browser. Nothing is uploaded."
+    />
+    <link rel="icon" href="./assets/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="./assets/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <canvas id="bg" aria-hidden="true"></canvas>
+    <div class="app">
+      <header class="brand">
+        <img class="logo" src="./assets/icon.png" width="120" height="120" alt="Metroid Prime Origins NX" />
+        <h1>Switch Port Generator</h1>
+        <p class="lede">You bring the Origins APK and we provide the SD zip.</p>
+        <p class="lede">Nothing leaves your PC.</p>
+        <div class="brand-controls">
+          <button type="button" id="bg-cycle" class="bg-cycle switch-focus-ring">Background: constellation</button>
+          <button type="button" id="mute" class="bg-cycle switch-focus-ring" aria-pressed="false">Sound: on</button>
+        </div>
+      </header>
+
+      <div class="drops">
+        <section class="panel" data-kind="apk">
+          <div class="panel-top">
+            <div>
+              <p class="meta">Metroid Prime Origins NX v1.1.2c</p>
+            </div>
+            <button class="linkish switch-focus-ring" type="button" id="help-open">How to install</button>
+          </div>
+          <button class="drop switch-focus-ring" type="button" id="drop" aria-label="Choose Origins APK">
+            <div class="drop-stage">
+              <canvas id="metroid" width="69" height="69" aria-hidden="true"></canvas>
+            </div>
+            <span class="drop-hint" id="drop-hint">Drop Origins 1.1.2+ APK or tap to browse</span>
+          </button>
+          <div class="panel-bar">
+            <button class="ghost switch-focus-ring" type="button" id="clear">Clear</button>
+            <button class="primary switch-focus-ring" id="create" type="button" disabled>Prepare SD</button>
+          </div>
+        </section>
+      </div>
+
+      <p class="status" id="status" aria-live="polite"></p>
+
+      <footer>
+        <a class="switch-focus-ring" href="https://github.com/bshurikan/mpo_nx" target="_blank" rel="noreferrer">mpo_nx</a>
+        <span aria-hidden="true">-</span>
+        <a class="switch-focus-ring" href="https://bshurikan.github.io/boot-toaster-nx/" target="_blank" rel="noreferrer">Boot Toaster NX</a>
+        <span aria-hidden="true">-</span>
+        <span>Fan port - not affiliated with Nintendo / Lv.4</span>
+      </footer>
+    </div>
+
+    <dialog id="progress">
+      <h3>Log entry - SD prep</h3>
+      <p class="progress-flavor" id="progress-msg">Scanning...</p>
+      <div class="bar-track" aria-hidden="true">
+        <div class="bar-fill" id="progress-bar"></div>
+      </div>
+      <pre id="progress-log" class="progress-log"></pre>
+      <div class="dialog-actions">
+        <button class="primary compact switch-focus-ring" id="progress-close" type="button" hidden>Close</button>
+      </div>
+    </dialog>
+
+    <dialog id="help">
+      <h3>How to install</h3>
+      <div id="help-body">
+        <p>1. Drop your <strong>Metroid Prime Origins Android YYC APK</strong> (v1.1.2+) above.</p>
+        <p>2. Click <strong>Prepare SD</strong> and wait for the zip download.</p>
+        <p>3. Extract the zip and copy the <code>mpo_nx</code> folder to:</p>
+        <pre>sdmc:/switch/mpo_nx/</pre>
+        <p>4. Launch <code>mpo_nx.nro</code> with <strong>full RAM</strong> (hold <strong>R</strong>, or use a forwarder).</p>
+        <p>Open NX Options with <strong>L3 + R3</strong>. Ship teleport / Teleport order need this prep (patched runner).</p>
+      </div>
+      <div class="dialog-actions">
+        <button class="primary compact switch-focus-ring" id="help-close" type="button">Close</button>
+      </div>
+    </dialog>
+
+    <input id="file" type="file" accept=".apk,application/vnd.android.package-archive" hidden />
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
