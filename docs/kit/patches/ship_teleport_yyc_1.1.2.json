@@ -1,0 +1,186 @@
+{
+  "id": "teleport-mods-runtime-flags-fix42-yyc-1.1.2",
+  "description": "Install runtime-flagged ship teleport and display-only organized teleport-order stubs.",
+  "architecture": "aarch64",
+  "sourceSha256": [
+    "954F22658117E7FCCB5BE89D54CF0262B204243610C788A43D5789314B3423FF"
+  ],
+  "legacyPatchedSha256": [
+    "B8798D8042F1EE0F189B0DADAA4DF201B70B9C1C7C81A9F343CEC476A544C792"
+  ],
+  "upgradePatchedSha256": [
+    "2A0A7B3881B52E3D47756798152ED7D82F32B010D721555C838103972970C3AD",
+    "1A899D3ED07B343242DEBD3051574DE453E4B5C11AFB257235DE54FDA22CE5BB",
+    "1F55621E0AC43534EE09C88F0DF1549B6E59AC17AA31DCBB47B82115F14C12A1",
+    "D9AB56A37FB30E0C781F8F19DE69C46E85B4E9D4EE9DDC18A1EDDF626ADA54B2",
+    "59DB4BD427F39BCF1E3A0202C1FFBAAEAAA1E7A9FE29BCB0BF818AFC2CBE6465",
+    "08B1451BC8AA8D24DE20F5B604C8D49B408C625E3DD4A1062DAC08B516216967",
+    "83945272C54787EFE89B15C1B9547289D7C92E762977255B49E124FEB313B52C",
+    "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D",
+    "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6"
+  ],
+  "patchedSha256": "AE38FFB2FE720EF3C01A48B094CB649CF8D8FC6B085554F8BA294F4762B2A832",
+  "injectedSegment": {
+    "programHeaderIndex": 7,
+    "fileOffset": "0x2088000",
+    "virtualAddress": "0x241C000",
+    "fileSize": "0x1000",
+    "alignment": "0x4000",
+    "runtimeFlagOffset": "0x241D100",
+    "runtimePendingOffset": "0x241D104",
+    "teleportOrderOffset": "0x241D108",
+    "teleportSortCallbackOffset": "0x241D110",
+    "fill": "00",
+    "stubs": [
+      {
+        "name": "landing-site-menu-gate",
+        "segmentOffset": "0x0",
+        "bytes": "10 00 00 B0 10 02 41 B9 70 00 00 35 54 00 00 35 C1 C1 D3 17 AB C1 D3 17"
+      },
+      {
+        "name": "ship-registration-gate",
+        "segmentOffset": "0x20",
+        "bytes": "10 00 00 B0 11 02 41 B9 11 01 00 34 11 06 41 B9 51 00 00 35 CF 0C E6 17 40 00 00 35 78 0D E6 17 1F 20 03 D5 CB 0C E6 17 40 00 00 35 C9 0C E6 17 73 0D E6 17"
+      },
+      {
+        "name": "identity-registration-gate",
+        "segmentOffset": "0x60",
+        "bytes": "10 00 00 B0 11 02 41 B9 71 00 00 34 11 06 41 B9 51 00 00 35 40 00 00 35 75 0C E6 17 68 0D E6 17"
+      },
+      {
+        "name": "save-menu-registration-retry",
+        "segmentOffset": "0xA0",
+        "bytes": "FF 83 00 D1 E1 0F 00 A9 FE 0B 00 F9 E9 2F EA 97 10 00 00 B0 11 02 41 B9 B1 00 00 34 E1 0F 40 A9 E0 03 13 AA 42 00 80 52 E2 2F EA 97 FE 0B 40 F9 FF 83 00 91 62 16 E6 17"
+      },
+      {
+        "name": "ship-push-with-dedupe-check",
+        "segmentOffset": "0x100",
+        "bytes": "FF 03 01 D1 FE 03 00 F9 E0 07 01 A9 E2 17 02 A9 E3 33 00 B9 E4 37 00 B9 10 00 00 B0 11 02 41 B9 51 01 00 34 08 8E 40 F9 08 01 00 B4 A2 00 40 F9 00 01 3F D6 C0 00 00 34 E0 07 41 A9 E2 17 42 A9 E3 33 40 B9 E4 37 40 B9 E6 2F EA 97 FE 03 40 F9 FF 03 01 91 32 0D E6 17 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+      },
+      {
+        "name": "teleport-menu-sanitize",
+        "segmentOffset": "0x180",
+        "bytes": "FF 43 00 D1 FE 03 00 F9 10 00 00 B0 10 8A 40 F9 B0 00 00 B4 E0 03 13 AA E1 03 15 AA E2 03 16 AA 00 02 3F D6 FE 03 40 F9 FF 43 00 91 E8 00 80 52 E4 11 A2 17 00 00 00 00 00 00 00 00"
+      }
+    ],
+    "shipPushCheckOffset": "0x241D118"
+  },
+  "patches": [
+    {
+      "name": "allow-teleport-from-landing-site",
+      "function": "gml_Object_menu_save_point_Step_0",
+      "knownFileOffset": "0x190C6BC",
+      "pattern": "1F 01 09 6A 60 00 00 54 E0 E3 00 91 ?? ?? ?? 94 ?? ?? ?? ?? 28 33 00 D0 0A 01 80 52",
+      "patchOffset": 16,
+      "before": "D4 02 00 34",
+      "legacyBefore": "1F 20 03 D5",
+      "upgradeBefore": "51 3E 2C 14",
+      "after": "51 3E 2C 14",
+      "note": "Branch to a stub that preserves vanilla CBZ behavior unless the wrapper flag is enabled.",
+      "upgradeBeforeByHash": {
+        "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D": "51 3E 2C 14",
+        "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6": "51 3E 2C 14"
+      }
+    },
+    {
+      "name": "register-ship-save-destination",
+      "function": "gml_Object_obj_save_point_Alarm_2",
+      "knownFileOffset": "0x1D9F36C",
+      "pattern": "E2 E3 01 91 E0 03 14 AA 05 21 00 91 E1 03 13 AA 23 00 80 52 ?? ?? ?? 94 ?? ?? ?? 94 ?? ?? ?? ?? E8 77 40 B9 36 00 80 52",
+      "patchOffset": 28,
+      "before": "80 15 00 37",
+      "legacyBefore": "1F 20 03 D5",
+      "upgradeBefore": "2D F3 19 14",
+      "after": "2D F3 19 14",
+      "note": "Branch to a stub that preserves vanilla behavior when disabled, rejects non-ship stations while registration is pending, and consumes pending at the ship.",
+      "upgradeBeforeByHash": {
+        "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D": "2D F3 19 14",
+        "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6": "2D F3 19 14"
+      }
+    },
+    {
+      "name": "register-ship-on-existing-save",
+      "function": "gml_Object_obj_save_point_Alarm_2",
+      "knownFileOffset": "0x1D9F248",
+      "pattern": "BA 03 19 F8 E2 23 02 91 A4 C3 01 D1 E0 03 14 AA E1 03 13 AA 23 00 80 52 ?? ?? ?? 94 ?? ?? ?? 94 ?? ?? ?? ??",
+      "patchOffset": 32,
+      "before": "A0 1E 00 37",
+      "legacyBefore": "A0 1E 00 37",
+      "upgradeBefore": "A0 1E 00 37",
+      "upgradeBeforeByHash": {
+        "1A899D3ED07B343242DEBD3051574DE453E4B5C11AFB257235DE54FDA22CE5BB": "86 F3 19 14",
+        "1F55621E0AC43534EE09C88F0DF1549B6E59AC17AA31DCBB47B82115F14C12A1": "86 F3 19 14",
+        "D9AB56A37FB30E0C781F8F19DE69C46E85B4E9D4EE9DDC18A1EDDF626ADA54B2": "86 F3 19 14",
+        "59DB4BD427F39BCF1E3A0202C1FFBAAEAAA1E7A9FE29BCB0BF818AFC2CBE6465": "86 F3 19 14",
+        "08B1451BC8AA8D24DE20F5B604C8D49B408C625E3DD4A1062DAC08B516216967": "86 F3 19 14",
+        "83945272C54787EFE89B15C1B9547289D7C92E762977255B49E124FEB313B52C": "86 F3 19 14",
+        "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D": "86 F3 19 14",
+        "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6": "86 F3 19 14"
+      },
+      "after": "86 F3 19 14",
+      "note": "Bypass the identity rejection only while both the wrapper flag and one-shot pending flag are set."
+    },
+    {
+      "name": "retry-ship-registration-from-save-menu",
+      "function": "gml_Object_obj_save_point_Step_2",
+      "knownFileOffset": "0x1DA1A58",
+      "pattern": "48 0E 00 D0 89 02 E8 D2 08 6D 44 F9 FF 87 00 B9 E9 3F 00 F9 01 09 40 B9 E3 E3 01 91 E0 03 13 AA E2 03 1F 2A ?? ?? ?? ??",
+      "patchOffset": 36,
+      "before": "7E 19 04 94",
+      "legacyBefore": "7E 19 04 94",
+      "upgradeBefore": "7E 19 04 94",
+      "upgradeBeforeByHash": {
+        "1F55621E0AC43534EE09C88F0DF1549B6E59AC17AA31DCBB47B82115F14C12A1": "92 E9 19 14",
+        "D9AB56A37FB30E0C781F8F19DE69C46E85B4E9D4EE9DDC18A1EDDF626ADA54B2": "92 E9 19 14",
+        "59DB4BD427F39BCF1E3A0202C1FFBAAEAAA1E7A9FE29BCB0BF818AFC2CBE6465": "92 E9 19 14",
+        "08B1451BC8AA8D24DE20F5B604C8D49B408C625E3DD4A1062DAC08B516216967": "92 E9 19 14",
+        "83945272C54787EFE89B15C1B9547289D7C92E762977255B49E124FEB313B52C": "92 E9 19 14",
+        "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D": "92 E9 19 14",
+        "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6": "92 E9 19 14"
+      },
+      "after": "92 E9 19 14",
+      "note": "Replace the alarm[0] setter call with a stub that preserves it and also sets alarm[2] when Ship teleport is enabled."
+    },
+    {
+      "name": "push-ship-destination",
+      "function": "gml_Object_obj_save_point_Alarm_2",
+      "knownFileOffset": "0x1D9F618",
+      "pattern": "68 0E 00 90 08 21 45 F9 B6 83 1D F8 04 09 40 B9 A8 C3 01 D1 E2 A3 01 91 05 01 01 91 E0 03 14 AA E1 03 13 AA 43 00 80 52 ?? ?? ?? ??",
+      "patchOffset": 40,
+      "before": "B2 22 04 94",
+      "legacyBefore": "B2 22 04 94",
+      "upgradeBefore": "B2 22 04 94",
+      "upgradeBeforeByHash": {
+        "1F55621E0AC43534EE09C88F0DF1549B6E59AC17AA31DCBB47B82115F14C12A1": "BA F2 19 14",
+        "D9AB56A37FB30E0C781F8F19DE69C46E85B4E9D4EE9DDC18A1EDDF626ADA54B2": "BA F2 19 14",
+        "59DB4BD427F39BCF1E3A0202C1FFBAAEAAA1E7A9FE29BCB0BF818AFC2CBE6465": "BA F2 19 14",
+        "08B1451BC8AA8D24DE20F5B604C8D49B408C625E3DD4A1062DAC08B516216967": "BA F2 19 14",
+        "83945272C54787EFE89B15C1B9547289D7C92E762977255B49E124FEB313B52C": "BA F2 19 14",
+        "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D": "BA F2 19 14",
+        "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6": "BA F2 19 14"
+      },
+      "after": "BA F2 19 14",
+      "note": "Route array_push through a stub that clears the one-shot pending flag; registration uses vanilla array_push (ship appends)."
+    },
+    {
+      "name": "sort-teleports-on-submenu-open",
+      "function": "gml_Object_submenu_teleport_Create_0",
+      "knownFileOffset": "0xCA093C",
+      "pattern": "E0 03 13 AA ?? ?? ?? 94 E0 03 16 AA E1 03 17 AA ?? ?? ?? 94 20 00 80 52 ?? ?? ?? 94 ?? ?? ?? ?? 69 02 40 F9 01 0B 40 B9",
+      "patchOffset": 28,
+      "before": "E8 00 80 52",
+      "legacyBefore": "E8 00 80 52",
+      "upgradeBefore": "E8 00 80 52",
+      "upgradeBeforeByHash": {
+        "D9AB56A37FB30E0C781F8F19DE69C46E85B4E9D4EE9DDC18A1EDDF626ADA54B2": "11 EE 5D 14",
+        "59DB4BD427F39BCF1E3A0202C1FFBAAEAAA1E7A9FE29BCB0BF818AFC2CBE6465": "11 EE 5D 14",
+        "08B1451BC8AA8D24DE20F5B604C8D49B408C625E3DD4A1062DAC08B516216967": "11 EE 5D 14",
+        "83945272C54787EFE89B15C1B9547289D7C92E762977255B49E124FEB313B52C": "11 EE 5D 14",
+        "3BDE99E4F82FD44159B7B9E57EE7BA8F6D1F3102775CEF3B5CF41F8217E11A4D": "11 EE 5D 14",
+        "691C32CE1066ED07C18F469875215B40DCF4AA4E149244F56A297AEC75BD02E6": "11 EE 5D 14"
+      },
+      "after": "11 EE 5D 14",
+      "note": "Call the wrapper sorter after teleport_array assignment; disabled mode executes only the replaced mov instruction."
+    }
+  ]
+}
