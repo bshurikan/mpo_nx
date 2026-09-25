@@ -11,8 +11,8 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 
 You need:
 
-1. This repo / a release zip **or** the [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool 
-2. Your [Metroid Prime Origins v1.1.2 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
+1.Your [Metroid Prime Origins v1.1.2 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
+2. This repo / [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool **or** a release zip 
 
 Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
    
@@ -20,7 +20,7 @@ Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
 
 ### NEW Method A - Super Easy (Universal web app, any OS) - recommended
 
-Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; prep runs on your PC.
+Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; prep runs on your device.
 
 1. Open **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
 2. Drop your **Origins 1.1.2+ APK** and click **Prepare SD**
