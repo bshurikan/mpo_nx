@@ -1,0 +1,16 @@
+﻿screen_width -1
+screen_height -1
+language en
+vsync 0
+show_fps 0
+docked_clocks 1
+handheld_docked 0
+menu_bg 3
+# Backdrop transparency 0-100 (0=opaque dim, 100=game fully visible). Default 15.
+menu_transparency 15
+# Ship teleport is a wrapper mod. 0 keeps vanilla Landing Site behavior.
+ship_teleport 0
+# Teleport order: 0 = by discovery (default), 1 = Organized (display-only).
+teleport_order 0
+# input_profile 0 = VM donor. 1 = Origins YYC / Input 10 (set by prepare_sd_yyc.ps1).
+input_profile 1
