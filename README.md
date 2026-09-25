@@ -11,26 +11,39 @@ This repository contains **only the Switch wrapper** - no game data and no GameM
 
 You need:
 
-1. **`mpo-switch-release.zip`** (or this repo) from [GitHub Releases](https://github.com/bshurikan/mpo_nx/releases) — wrapper + config + tools  
+1. This repo / a release zip **or** the [web Prepare SD](https://bshurikan.github.io/mpo_nx/) tool
+
+1. This repo / a release zip **or** the [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool 
 2. Your [Metroid Prime Origins v1.1.2 APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
+
+Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
    
 ---
 
-### Method A - Easy (Automatic prep script, Windows only)
+### NEW Method A - Super Easy (Universal web app, any OS) - recommended
 
-Easiest option if you are on Windows and the script runs for you.
+Patches the teleport mods automatically. Nothing is uploaded; prep runs on your PC.
+
+1. Open **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
+2. Drop your **Origins 1.1.2+ APK** and click **Prepare SD**
+3. Extract the zip and copy **`mpo_nx/`** to **`sdmc:/switch/mpo_nx/`**
+4. Launch with full RAM
+
+### OLD Method A - Easy (Windows prep script)
+
+Same result as the web tool, using the release zip.
 
 1. Extract **`mpo-switch-release.zip`**.
 2. Double-click and run **`tools/Prepare SD Card.bat`**.
 3. Select your **Metroid Prime Origins Android APK** when prompted.
 4. Copy the generated **`sd_card/mpo_nx/`** folder to **`switch/mpo_nx/`** on your SD card. 
 
-> If Method A doesn't work for you use Method B instead.
+> If the script fails, use Method A (browser) or Method B.
 
 ---
 
 ### Method B - Moderate (Manual procedure, any OS)
-> **Important:** this method does not include the automatic teleport-mod patch. Prefer Method A, or run `tools/Prepare SD Card.bat` so `patches/ship_teleport_yyc_1.1.2.json` is applied.
+> **Important:** Manual installs do **not** apply the teleport-mod patch. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
@@ -76,13 +89,18 @@ sdmc:/switch/mpo_nx/
 
 ## Configuration (`config.txt`)
 
+Editable on PC or via **L3+R3** NX Options (saves on close). Resolution needs a restart.
+
 | Key | Default | Notes |
 |-----|---------|-------|
-| `show_fps` | `1` | On-screen FPS counter |
-| `vsync` | `0` | Keep off — vsync can lock pacing ~30 fps |
-| `docked_clocks` | `1` | Higher GPU in handheld when Horizon allows (~460; 768 needs sys-clk) |
-| `screen_width/height` | `-1` | Auto (720p handheld, 1080p docked) |
-| `input_profile` | `1` | YYC / Input 10 (forced) |
+| `show_fps` | `1` | On-screen FPS |
+| `vsync` | `0` | Keep off |
+| `docked_clocks` | `1` | Higher GPU in handheld when allowed |
+| `handheld_docked` | `0` | Force official docked 768 MHz while undocked |
+| `menu_bg` / `menu_transparency` | Drift / 15 | NX Options backdrop |
+| `ship_teleport` | `0` | Landing Site ship as teleport destination |
+| `teleport_order` | `0` | `0` discovery, `1` Organized (menu only) |
+| `input_profile` | `1` | YYC / Input 10 |
 
 In-game: press **L3 + R3** to open **NX Options**. Toggle FPS / VSync / clocks / resolution — changes write to `config.txt`.
 
