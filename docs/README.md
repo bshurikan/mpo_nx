@@ -39,7 +39,7 @@ Then open `http://localhost:5173`.
 | `kit/config.txt` | defaults (incl. GML teleport keys + aspect_ratio) |
 | `kit/sdl2.txt` / `sdl2_yyc_prepend.txt` | release |
 | `kit/gamecontrollerdb.txt` | release |
-| `kit/update/1.1.2d/libyoyo.so` | from your YYC export APK |
+| `kit/update/1.1.2d/libyoyo.so.zip` | from your YYC export APK (zipped for GitHub size limits; generator unpacks) |
 | `kit/update/1.1.2d/game.droid` | same export |
 | `kit/update/1.1.2d/manifest.json` | official + pack SHA-256 gates |
 
