@@ -3,7 +3,8 @@ import { prepareSdPackage } from "./prepare.js";
 import { downloadBlob } from "./zip.js";
 
 /**
- * TOP: funny flavor — advanced by job % (not a fixed timer).
+ * TOP: funny flavor — equal timed holds (job % is uneven: unzip/fetch long,
+ * cataloguing flies by, so %-buckets made "Don't feed the Metroids" flash).
  * CONSOLE: technical status — typewriter; wrap enabled.
  */
 const STATUS_FLAVOR = [
@@ -12,6 +13,8 @@ const STATUS_FLAVOR = [
   "Don't feed the Metroids.",
   "Metroid containment nominal. Probably.",
 ];
+/** Each flavor stays this long, then advances; last one holds until done. */
+const FLAVOR_HOLD_MS = 3200;
 
 const CONSOLE_TYPE_MS = 4;
 const CONSOLE_CHUNK = 4;
@@ -36,6 +39,8 @@ const metroidCanvas = document.getElementById("metroid");
 let apkFile = null;
 let muted = localStorage.getItem("mpo_prep_mute") === "1";
 let flavorRunId = 0;
+let flavorTimer = null;
+let flavorIdx = 0;
 let consoleRunId = 0;
 let consoleQueue = [];
 let consolePumping = false;
@@ -189,6 +194,26 @@ function sleep(ms) {
 
 function stopFlavorTop() {
   flavorRunId += 1;
+  if (flavorTimer != null) {
+    clearTimeout(flavorTimer);
+    flavorTimer = null;
+  }
+}
+
+/** Even on-screen time per line; independent of uneven job phases. */
+function startFlavorRotation() {
+  stopFlavorTop();
+  flavorIdx = 0;
+  progressMsg.textContent = STATUS_FLAVOR[0];
+  const runId = flavorRunId;
+  const advance = () => {
+    if (runId !== flavorRunId || !jobActive) return;
+    if (flavorIdx >= STATUS_FLAVOR.length - 1) return;
+    flavorIdx += 1;
+    progressMsg.textContent = STATUS_FLAVOR[flavorIdx];
+    flavorTimer = setTimeout(advance, FLAVOR_HOLD_MS);
+  };
+  flavorTimer = setTimeout(advance, FLAVOR_HOLD_MS);
 }
 
 function stopConsole() {
@@ -323,24 +348,10 @@ async function flushConsoleThen(finalMessage) {
   ensureIdleCursor();
 }
 
-function flavorForPct(pct) {
-  const n = STATUS_FLAVOR.length;
-  const idx = Math.min(n - 1, Math.floor((Math.max(0, Math.min(100, pct)) / 100) * n));
-  return STATUS_FLAVOR[idx];
-}
-
 let lastConsoleMsg = "";
-let lastFlavor = "";
 
 function setProgress(msg, pct) {
   progressBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
-  if (jobActive) {
-    const flavor = flavorForPct(pct);
-    if (flavor !== lastFlavor) {
-      lastFlavor = flavor;
-      progressMsg.textContent = flavor;
-    }
-  }
   /* Assemble hash spam: rewrite the current console line instead of flooding. */
   if (/^Assembling SD image — hashing/.test(msg)) {
     const lines = consoleViewport?.querySelectorAll(".console-line");
@@ -361,13 +372,11 @@ function openProgress() {
   progressClose.hidden = true;
   jobActive = true;
   lastConsoleMsg = "";
-  lastFlavor = STATUS_FLAVOR[0];
-  stopFlavorTop();
   stopConsole();
   clearConsole();
   ensureIdleCursor();
   consoleRunId += 1;
-  progressMsg.textContent = STATUS_FLAVOR[0];
+  startFlavorRotation();
   progressDlg.showModal();
   play("scan");
 }
