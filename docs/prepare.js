@@ -134,7 +134,7 @@ export async function prepareSdPackage(apkFile, onProgress) {
 
   await report("Scanning package...", 2);
 
-  const apkBuf = new Uint8Array(await apkFile.arrayBuffer());
+  let apkBuf = new Uint8Array(await apkFile.arrayBuffer());
   await tick();
   let apkFiles;
   try {
@@ -151,6 +151,8 @@ export async function prepareSdPackage(apkFile, onProgress) {
   } catch (err) {
     throw new Error(`Could not read APK as zip: ${err.message || err}`);
   }
+  /* Raw APK buffer no longer needed (not shipped in the SD zip). */
+  apkBuf = null;
   await tick();
 
   const libKey = findLibEntry(apkFiles);
@@ -215,8 +217,11 @@ export async function prepareSdPackage(apkFile, onProgress) {
   out["mpo_nx/gamecontrollerdb.txt"] = controllerDb;
   out["mpo_nx/sdl2.txt"] = new TextEncoder().encode(prepend);
   out["mpo_nx/libyoyo.so"] = updateLib;
-  /* Keep the user's official APK as game.apk (legal + assets donor). Loose lib/assets win. */
-  out["mpo_nx/game.apk"] = apkBuf;
+  /*
+   * Do NOT embed game.apk in the download zip (~238MB). That dominated assemble
+   * time/RAM. User already has the APK — they copy it in as game.apk after extract.
+   * Loose libyoyo.so + assets/ (with updated game.droid) are what the update needs.
+   */
 
   const assetKeys = Object.keys(apkFiles).filter(
     (k) => k.startsWith("assets/") && !k.endsWith("/")
@@ -249,6 +254,9 @@ export async function prepareSdPackage(apkFile, onProgress) {
       }
     }
   }
+
+  /* Drop APK bytes so GC can reclaim ~238MB before zip assemble. */
+  apkFiles = null;
 
   if (!out["mpo_nx/assets/sdl2.txt"]) {
     out["mpo_nx/assets/sdl2.txt"] = sdl2Root;

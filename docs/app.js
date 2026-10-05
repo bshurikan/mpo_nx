@@ -3,10 +3,9 @@ import { prepareSdPackage } from "./prepare.js";
 import { downloadBlob } from "./zip.js";
 
 /**
- * TOP: funny flavor — fixed order, ~0.9s each, only while the job runs.
- * CONSOLE: technical status — keep up with the job (typing vibe, no hang past 100%).
+ * TOP: funny flavor — advanced by job % (not a fixed timer).
+ * CONSOLE: technical status — typewriter; wrap enabled.
  */
-const FLAVOR_ROTATE_MS = 900;
 const STATUS_FLAVOR = [
   "Space Pirate encrypted data decoded.",
   "Science Team requests additional coffee rations.",
@@ -17,7 +16,7 @@ const STATUS_FLAVOR = [
 const CONSOLE_TYPE_MS = 4;
 const CONSOLE_CHUNK = 4;
 const CONSOLE_GAP_MS = 50;
-const CONSOLE_MAX_LINES = 6;
+const CONSOLE_MAX_LINES = 8;
 
 const fileInput = document.getElementById("file");
 const drop = document.getElementById("drop");
@@ -299,22 +298,52 @@ async function flushConsoleThen(finalMessage) {
   }
 }
 
-async function runFlavorTop(runId, lines) {
-  let i = 0;
-  progressMsg.textContent = lines[0] || "";
-  while (runId === flavorRunId && jobActive) {
-    await sleep(FLAVOR_ROTATE_MS);
-    if (runId !== flavorRunId || !jobActive) break;
-    i += 1;
-    if (i >= lines.length) break; /* don't loop after list — job may still be going */
-    progressMsg.textContent = lines[i];
+async function flushConsoleThen(finalMessage) {
+  const runId = consoleRunId;
+  const deadline = performance.now() + 600;
+  while (
+    runId === consoleRunId &&
+    (consolePumping || consoleQueue.length) &&
+    performance.now() < deadline
+  ) {
+    if (!consolePumping && consoleQueue.length) void pumpConsole(runId);
+    await sleep(16);
+  }
+  if (runId !== consoleRunId) return;
+  /* Snap any leftovers so every status line was shown. */
+  const leftover = consoleQueue.slice();
+  consoleQueue = [];
+  consolePumping = false;
+  for (const msg of leftover) {
+    const row = appendConsoleLine();
+    row.text.textContent = msg;
+    finishConsoleRow(row);
+  }
+  for (const part of String(finalMessage).split(/\n+/).filter(Boolean)) {
+    const row = appendConsoleLine();
+    row.text.textContent = part;
+    finishConsoleRow(row);
   }
 }
 
+function flavorForPct(pct) {
+  const n = STATUS_FLAVOR.length;
+  const idx = Math.min(n - 1, Math.floor((Math.max(0, Math.min(100, pct)) / 100) * n));
+  return STATUS_FLAVOR[idx];
+}
+
 let lastConsoleMsg = "";
+let lastFlavor = "";
 
 function setProgress(msg, pct) {
   progressBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  if (jobActive) {
+    const flavor = flavorForPct(pct);
+    if (flavor !== lastFlavor) {
+      lastFlavor = flavor;
+      progressMsg.textContent = flavor;
+    }
+  }
   /* Assemble hash spam: rewrite the current console line instead of flooding. */
   if (/^Assembling SD image — hashing/.test(msg)) {
     const lines = consoleViewport?.querySelectorAll(".console-line");
@@ -335,16 +364,14 @@ function openProgress() {
   progressClose.hidden = true;
   jobActive = true;
   lastConsoleMsg = "";
+  lastFlavor = STATUS_FLAVOR[0];
   stopFlavorTop();
   stopConsole();
   clearConsole();
   consoleRunId += 1;
-  const deck = STATUS_FLAVOR;
-  progressMsg.textContent = deck[0];
+  progressMsg.textContent = STATUS_FLAVOR[0];
   progressDlg.showModal();
   play("scan");
-  const flavorId = ++flavorRunId;
-  void runFlavorTop(flavorId, deck);
 }
 
 function closeProgressSoon() {
@@ -367,7 +394,11 @@ createBtn.addEventListener("click", async () => {
     play("logbook");
     downloadBlob(zip, filename);
     progressBar.style.width = "100%";
-    await flushConsoleThen("Copy mpo_nx/ to sdmc:/switch/ · Use full RAM launch or Forwarder");
+    await flushConsoleThen(
+      "Extract → copy mpo_nx/ to sdmc:/switch/mpo_nx/\n" +
+        "Also copy your Origins APK into that folder as game.apk\n" +
+        "Full RAM launch (hold R) or Forwarder"
+    );
     setStatus("Downloaded. See How to install for instructions.");
   } catch (err) {
     console.error(err);

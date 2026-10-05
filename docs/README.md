@@ -9,7 +9,7 @@ Browser tool that builds a Switch SD folder from your **official Metroid Prime O
    - Invisible / Nursery / beam / weather perf culls
    - **GML ship teleport + teleport sorting** (reads `config.txt` — **no binary stubs**)
 3. Everything else (BGM, most assets) comes from **your** APK.
-4. You get `mpo_nx.zip` → copy to `sdmc:/switch/mpo_nx/`.
+4. You get `mpo_nx.zip` → extract, copy `mpo_nx/` to the SD, then copy your official APK into that folder as `game.apk` (the zip does **not** embed the 238 MB APK — much faster prep/download).
 
 This site is the **only** public update path (not GitHub Releases Method A/B or 1.1.2c-style SO patches).
 
