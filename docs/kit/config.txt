@@ -1,16 +1,26 @@
-﻿screen_width -1
+# -1 = auto (720p handheld, 1080p docked). 1280 720 is smoother.
+# show_fps 1 = on-screen counter. vsync 0 = no 30fps lock (may tear).
+# docked_clocks is forced on (handheld GPU ~460). Use handheld_docked for 768.
+# handheld_docked 1 = force official docked GPU 768 / RAM 1600 while undocked (heat/battery).
+# menu_bg 0=Constellation 1=Fireflies 2=Aurora 3=Drift 4=Meteors 5=Orbit 6=None
+# menu_transparency 0-100 = dim see-through (0=opaque, 100=game fully visible). Default 15.
+# aspect_ratio 0=Original 4:3 (letterbox) 1=Stretched fill (distorts). Default 0.
+# input_profile is forced to 1 (YYC / Input 10). VM profile unused.
+# ship_teleport 1 = allow teleporting from/to the Landing Site ship. Default 0.
+# teleport_sorting 1 = show in-game X sort (Discovery/Organized/A-Z/Z-A). Default 0.
+# teleport_sort_mode 0=Discovery 1=Organized 2=A-Z 3=Z-A (used when sorting is on).
+# In-game: L3+R3 opens NX OPTIONS.
+screen_width -1
 screen_height -1
-language en
-vsync 0
 show_fps 0
+vsync 1
 docked_clocks 1
-handheld_docked 0
-menu_bg 3
-# Backdrop transparency 0-100 (0=opaque dim, 100=game fully visible). Default 15.
-menu_transparency 15
-# Ship teleport is a wrapper mod. 0 keeps vanilla Landing Site behavior.
-ship_teleport 0
-# Teleport order: 0 = by discovery (default), 1 = Organized (display-only).
-teleport_order 0
-# input_profile 0 = VM donor. 1 = Origins YYC / Input 10 (set by prepare_sd_yyc.ps1).
+handheld_docked 1
+menu_bg 0
+menu_transparency 30
+aspect_ratio 1
 input_profile 1
+ship_teleport 1
+teleport_sorting 1
+teleport_sort_mode 1
+language en
