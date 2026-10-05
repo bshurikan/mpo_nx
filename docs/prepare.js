@@ -1,6 +1,14 @@
 import { unzipSync } from "./vendor/fflate.esm.js";
-import { applyLibyoyoPatch } from "./patch.js";
 import { buildZip } from "./zip.js";
+
+/** Public 1.1.2d: official APK assets + hosted YYC runner/game.droid (no binary stubs). */
+const UPDATE_VERSION = "1.1.2d";
+
+/**
+ * Job-status lines go to the typewriter console (app.js). Keep dwell low —
+ * typing already paces them; a long dwell just stalls the zip.
+ */
+export const STATUS_DWELL_MS = 0;
 
 const KIT = {
   nro: "./kit/mpo_nx.nro",
@@ -8,15 +16,34 @@ const KIT = {
   sdl2: "./kit/sdl2.txt",
   controller: "./kit/gamecontrollerdb.txt",
   prepend: "./kit/sdl2_yyc_prepend.txt",
-  patch: "./kit/patches/ship_teleport_yyc_1.1.2.json",
+  updateManifest: `./kit/update/${UPDATE_VERSION}/manifest.json`,
+  updateLib: `./kit/update/${UPDATE_VERSION}/libyoyo.so`,
+  updateDroid: `./kit/update/${UPDATE_VERSION}/game.droid`,
 };
 
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
 function tick() {
-  return new Promise((r) => setTimeout(r, 0));
+  return sleep(0);
+}
+
+/** Progress reporter with minimum on-screen time so lines are readable. */
+function makeReporter(onProgress) {
+  let lastShown = 0;
+  return async (msg, pct, { dwell = true } = {}) => {
+    if (dwell && lastShown) {
+      const wait = STATUS_DWELL_MS - (performance.now() - lastShown);
+      if (wait > 0) await sleep(wait);
+    }
+    if (onProgress) onProgress(msg, pct);
+    lastShown = performance.now();
+  };
 }
 
 async function fetchBytes(url, label, onProgress) {
-  if (onProgress) onProgress(`Fetching ${label}...`);
+  if (onProgress) onProgress(`${label}...`);
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Could not load ${label} (${res.status}).`);
   const buf = await res.arrayBuffer();
@@ -29,17 +56,32 @@ async function fetchText(url) {
   return res.text();
 }
 
-function ensureInputProfile(configText) {
+async function sha256Hex(bytes) {
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return [...new Uint8Array(digest)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function ensureConfigDefaults(configText) {
   const lines = configText.replace(/\r\n/g, "\n").split("\n");
-  let found = false;
+  const keys = {
+    input_profile: "1",
+  };
+  const seen = {};
   const out = lines.map((line) => {
-    if (/^\s*input_profile\s/.test(line)) {
-      found = true;
-      return "input_profile 1";
+    const m = /^\s*([A-Za-z0-9_]+)\s/.exec(line);
+    if (!m) return line;
+    const key = m[1];
+    if (key in keys) {
+      seen[key] = true;
+      return `${key} ${keys[key]}`;
     }
     return line;
   });
-  if (!found) out.push("input_profile 1");
+  for (const [key, val] of Object.entries(keys)) {
+    if (!seen[key]) out.push(`${key} ${val}`);
+  }
   return out.join("\n").replace(/\n*$/, "\n");
 }
 
@@ -60,17 +102,11 @@ function findLibEntry(files) {
  * @returns {Promise<{ zip: Uint8Array, filename: string }>}
  */
 export async function prepareSdPackage(apkFile, onProgress) {
-  const report = (msg, pct) => {
-    if (onProgress) onProgress(msg, pct);
-  };
+  const report = makeReporter(onProgress);
 
-  report("Space Pirate encrypted data decoded. Scanning package...", 2);
-  await tick();
+  await report("Scanning package...", 2);
 
   const apkBuf = new Uint8Array(await apkFile.arrayBuffer());
-  report(`Payload acquired (${(apkBuf.length / 1e6).toFixed(1)} MB). Opening archive...`, 8);
-  await tick();
-
   let apkFiles;
   try {
     apkFiles = unzipSync(apkBuf, {
@@ -88,34 +124,58 @@ export async function prepareSdPackage(apkFile, onProgress) {
   }
 
   const libKey = findLibEntry(apkFiles);
-  let libBytes = apkFiles[libKey];
-  report(`Extracted ${libKey} (${(libBytes.length / 1e6).toFixed(1)} MB).`, 18);
-  await tick();
+  const stockLib = apkFiles[libKey];
+  if (!apkFiles["assets/game.droid"]) {
+    throw new Error("Origins APK missing assets/game.droid.");
+  }
+  const stockDroid = apkFiles["assets/game.droid"];
 
-  report("Fetching wrapper kit from local cache...", 22);
-  const [nro, configRaw, sdl2Root, controllerDb, prepend, patchJsonText] = await Promise.all([
-    fetchBytes(KIT.nro, "mpo_nx.nro", (m) => report(m, 24)),
-    fetchText(KIT.config),
-    fetchBytes(KIT.sdl2, "sdl2.txt"),
-    fetchBytes(KIT.controller, "gamecontrollerdb.txt"),
-    fetchText(KIT.prepend),
-    fetchText(KIT.patch),
-  ]);
-  const patchDef = JSON.parse(patchJsonText);
-  report("Runner signature check in progress. Science Team advises patience.", 35);
-  await tick();
+  await report("Verifying official Origins 1.1.2 signature...", 18);
+  const manifest = JSON.parse(await fetchText(KIT.updateManifest));
+  const req = manifest.requiresOfficialApk || {};
+  const pack = manifest.pack || {};
+  const stockLibHash = await sha256Hex(stockLib);
+  const stockDroidHash = await sha256Hex(stockDroid);
+  if (
+    (req.libyoyoSha256 && stockLibHash !== req.libyoyoSha256) ||
+    (req.gameDroidSha256 && stockDroidHash !== req.gameDroidSha256)
+  ) {
+    throw new Error(
+      "This tool requires the official Metroid Prime Origins Android YYC APK v1.1.2 " +
+        "(stock runner + game.droid). Other builds (including already-updated personal APKs) are rejected."
+    );
+  }
 
-  report("Injecting teleport-mod firmware. Do not feed the Metroids.", 42);
-  libBytes = await applyLibyoyoPatch(libBytes, patchDef);
-  report("Teleport mods applied. Hash verified.", 55);
-  await tick();
+  await report("Fetching NX update pack + wrapper kit...", 28);
+  const [nro, configRaw, sdl2Root, controllerDb, prepend, updateLib, updateDroid] =
+    await Promise.all([
+      fetchBytes(KIT.nro, "mpo_nx.nro"),
+      fetchText(KIT.config),
+      fetchBytes(KIT.sdl2, "sdl2.txt"),
+      fetchBytes(KIT.controller, "gamecontrollerdb.txt"),
+      fetchText(KIT.prepend),
+      fetchBytes(KIT.updateLib, "update libyoyo.so", (m) => onProgress && onProgress(m, 34)),
+      fetchBytes(KIT.updateDroid, "update game.droid", (m) => onProgress && onProgress(m, 40)),
+    ]);
+
+  const packLibHash = await sha256Hex(updateLib);
+  const packDroidHash = await sha256Hex(updateDroid);
+  if (
+    (pack.libyoyoSha256 && packLibHash !== pack.libyoyoSha256) ||
+    (pack.gameDroidSha256 && packDroidHash !== pack.gameDroidSha256)
+  ) {
+    throw new Error(
+      `Update pack ${UPDATE_VERSION} failed integrity check. Re-download the site kit / hard-refresh.`
+    );
+  }
 
   const out = {};
   out["mpo_nx/mpo_nx.nro"] = nro;
-  out["mpo_nx/config.txt"] = new TextEncoder().encode(ensureInputProfile(configRaw));
+  out["mpo_nx/config.txt"] = new TextEncoder().encode(ensureConfigDefaults(configRaw));
   out["mpo_nx/gamecontrollerdb.txt"] = controllerDb;
   out["mpo_nx/sdl2.txt"] = new TextEncoder().encode(prepend);
-  out["mpo_nx/libyoyo.so"] = libBytes;
+  out["mpo_nx/libyoyo.so"] = updateLib;
+  /* Keep the user's official APK as game.apk (legal + assets donor). Loose lib/assets win. */
   out["mpo_nx/game.apk"] = apkBuf;
 
   const assetKeys = Object.keys(apkFiles).filter(
@@ -123,38 +183,43 @@ export async function prepareSdPackage(apkFile, onProgress) {
   );
   if (assetKeys.length === 0) throw new Error("Origins APK has no assets/ entries.");
 
-  report(`Decrypting ${assetKeys.length} asset files...`, 60);
+  await report(`Cataloguing ${assetKeys.length} asset files from official APK...`, 55);
   let i = 0;
+  let lastCatalogPct = -1;
   for (const key of assetKeys) {
     const rel = key.slice("assets/".length);
     let data = apkFiles[key];
-    if (rel.replace(/\\/g, "/") === "sdl2.txt") {
+    if (rel.replace(/\\/g, "/") === "game.droid") {
+      data = updateDroid;
+    } else if (rel.replace(/\\/g, "/") === "sdl2.txt") {
       const existing = new TextDecoder().decode(data);
       data = new TextEncoder().encode(prepend + existing);
     }
     out[`mpo_nx/assets/${rel}`] = data;
     i++;
-    if (i % 40 === 0) {
-      const pct = 60 + Math.floor((i / assetKeys.length) * 25);
-      report(`Cataloguing artifacts... ${i}/${assetKeys.length}`, pct);
-      await tick();
+    if (i % 40 === 0 || i === assetKeys.length) {
+      const pct = 55 + Math.floor((i / assetKeys.length) * 30);
+      if (pct !== lastCatalogPct) {
+        lastCatalogPct = pct;
+        await report(`Cataloguing artifacts... ${i}/${assetKeys.length}`, pct, {
+          dwell: false,
+        });
+        await tick();
+      }
     }
   }
 
-  // Prefer kit sdl2 into assets if somehow missing
   if (!out["mpo_nx/assets/sdl2.txt"]) {
     out["mpo_nx/assets/sdl2.txt"] = sdl2Root;
   }
+  out["mpo_nx/assets/game.droid"] = updateDroid;
 
-  report("Assembling SD image. Log 99.prep.1 - zip in progress...", 88);
-  await tick();
+  await report("Assembling SD image. Log 99.prep.1 - zip in progress...", 88);
   const zip = await buildZip(out);
-  report("Data decoded. Package ready. [[RATIONS UNCHANGED.]]", 100);
-  await tick();
+  await report(`Data decoded. Package ready (${UPDATE_VERSION}).`, 100);
 
-  const stem = (apkFile.name || "origins").replace(/\.apk$/i, "");
   return {
     zip,
-    filename: `${stem}-mpo_nx-sd.zip`,
+    filename: `mpo_nx-${UPDATE_VERSION}-sd.zip`,
   };
 }

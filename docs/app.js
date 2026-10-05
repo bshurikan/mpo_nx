@@ -2,14 +2,22 @@ import "./bg.js";
 import { prepareSdPackage } from "./prepare.js";
 import { downloadBytes } from "./zip.js";
 
+/**
+ * TOP: funny flavor — fixed order, ~0.9s each, only while the job runs.
+ * CONSOLE: technical status — keep up with the job (typing vibe, no hang past 100%).
+ */
+const FLAVOR_ROTATE_MS = 900;
 const STATUS_FLAVOR = [
   "Space Pirate encrypted data decoded.",
   "Science Team requests additional coffee rations.",
-  "Scan visor locked. Object: game.apk",
-  "[[INFRACTION: impatience detected. Rations unchanged.]]",
+  "Don't feed the Metroids.",
   "Metroid containment nominal. Probably.",
-  "GF protocol 1.1.2 - YYC runner preferred.",
 ];
+
+const CONSOLE_TYPE_MS = 3;
+const CONSOLE_CHUNK = 3;
+const CONSOLE_GAP_MS = 35;
+const CONSOLE_MAX_LINES = 6;
 
 const fileInput = document.getElementById("file");
 const drop = document.getElementById("drop");
@@ -22,12 +30,17 @@ const progressDlg = document.getElementById("progress");
 const progressBar = document.getElementById("progress-bar");
 const progressMsg = document.getElementById("progress-msg");
 const progressLog = document.getElementById("progress-log");
+const consoleViewport = document.getElementById("console-viewport");
 const progressClose = document.getElementById("progress-close");
 const metroidCanvas = document.getElementById("metroid");
 
 let apkFile = null;
 let muted = localStorage.getItem("mpo_prep_mute") === "1";
-let flavorTimer = 0;
+let flavorRunId = 0;
+let consoleRunId = 0;
+let consoleQueue = [];
+let consolePumping = false;
+let jobActive = false;
 
 const sfx = {
   metroid: new Audio("./assets/sfx/metroid.wav"),
@@ -125,14 +138,14 @@ function setStatus(msg) {
 function setApk(file) {
   if (!file) {
     apkFile = null;
-    dropHint.textContent = "Drop Origins 1.1.2+ APK or tap to browse";
+    dropHint.textContent = "Drop official Origins 1.1.2 APK or tap to browse";
     createBtn.disabled = true;
     setStatus("");
     setMetroidAlive(false);
     return;
   }
   if (!/\.apk$/i.test(file.name) && file.type !== "application/vnd.android.package-archive") {
-    setStatus("That doesn't look like an APK. Try the Origins 1.1.2 package.");
+    setStatus("That doesn't look like an APK. Use the official Origins 1.1.2 package.");
     return;
   }
   apkFile = file;
@@ -171,30 +184,157 @@ clearBtn.addEventListener("click", () => {
   setApk(null);
 });
 
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function stopFlavorTop() {
+  flavorRunId += 1;
+}
+
+function stopConsole() {
+  consoleRunId += 1;
+  consoleQueue = [];
+  consolePumping = false;
+}
+
+function clearConsole() {
+  if (consoleViewport) consoleViewport.replaceChildren();
+}
+
+function appendConsoleLine() {
+  const line = document.createElement("div");
+  line.className = "console-line";
+  const text = document.createElement("span");
+  text.className = "console-text";
+  const cursor = document.createElement("span");
+  cursor.className = "console-cursor";
+  cursor.setAttribute("aria-hidden", "true");
+  cursor.textContent = "█";
+  line.append(text, cursor);
+  consoleViewport.appendChild(line);
+  while (consoleViewport.children.length > CONSOLE_MAX_LINES) {
+    consoleViewport.firstElementChild.remove();
+  }
+  return { line, text, cursor };
+}
+
+function finishConsoleRow(row) {
+  row.cursor.remove();
+  row.line.classList.add("console-line-done");
+}
+
+/** Typing vibe when caught up; snap when backlog so we never hang past the job. */
+async function typeConsoleLine(text, runId, { snap = false } = {}) {
+  const row = appendConsoleLine();
+  if (snap) {
+    row.text.textContent = text;
+    finishConsoleRow(row);
+    await sleep(CONSOLE_GAP_MS);
+    return runId === consoleRunId;
+  }
+  for (let i = 0; i < text.length; i += CONSOLE_CHUNK) {
+    if (runId !== consoleRunId) return false;
+    row.text.textContent += text.slice(i, i + CONSOLE_CHUNK);
+    await sleep(CONSOLE_TYPE_MS);
+    /* Backlog growing — finish this line now and let pump catch up. */
+    if (consoleQueue.length > 0) {
+      row.text.textContent = text;
+      break;
+    }
+  }
+  if (runId !== consoleRunId) return false;
+  finishConsoleRow(row);
+  await sleep(CONSOLE_GAP_MS);
+  return runId === consoleRunId;
+}
+
+async function pumpConsole(runId) {
+  if (consolePumping) return;
+  consolePumping = true;
+  while (runId === consoleRunId && consoleQueue.length) {
+    const msg = consoleQueue.shift();
+    const snap = consoleQueue.length >= 2;
+    const ok = await typeConsoleLine(msg, runId, { snap });
+    if (!ok) break;
+  }
+  if (runId === consoleRunId) consolePumping = false;
+}
+
+function enqueueConsole(msg) {
+  if (!msg) return;
+  const lines = String(msg)
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  consoleQueue.push(...lines);
+  void pumpConsole(consoleRunId);
+}
+
+async function flushConsoleThen(finalMessage) {
+  const runId = consoleRunId;
+  const deadline = performance.now() + 600;
+  while (
+    runId === consoleRunId &&
+    (consolePumping || consoleQueue.length) &&
+    performance.now() < deadline
+  ) {
+    if (!consolePumping && consoleQueue.length) void pumpConsole(runId);
+    await sleep(16);
+  }
+  if (runId !== consoleRunId) return;
+  /* Snap any leftovers so every status line was shown. */
+  const leftover = consoleQueue.slice();
+  consoleQueue = [];
+  consolePumping = false;
+  for (const msg of leftover) {
+    const row = appendConsoleLine();
+    row.text.textContent = msg;
+    finishConsoleRow(row);
+  }
+  for (const part of String(finalMessage).split(/\n+/).filter(Boolean)) {
+    const row = appendConsoleLine();
+    row.text.textContent = part;
+    finishConsoleRow(row);
+  }
+}
+
+async function runFlavorTop(runId, lines) {
+  let i = 0;
+  progressMsg.textContent = lines[0] || "";
+  while (runId === flavorRunId && jobActive) {
+    await sleep(FLAVOR_ROTATE_MS);
+    if (runId !== flavorRunId || !jobActive) break;
+    i += 1;
+    if (i >= lines.length) break; /* don't loop after list — job may still be going */
+    progressMsg.textContent = lines[i];
+  }
+}
+
 function openProgress() {
   progressBar.style.width = "0%";
-  progressMsg.textContent = STATUS_FLAVOR[0];
-  progressLog.textContent = "";
   progressClose.hidden = true;
+  jobActive = true;
+  stopFlavorTop();
+  stopConsole();
+  clearConsole();
+  consoleRunId += 1;
+  const deck = STATUS_FLAVOR;
+  progressMsg.textContent = deck[0];
   progressDlg.showModal();
   play("scan");
-  let i = 0;
-  clearInterval(flavorTimer);
-  flavorTimer = setInterval(() => {
-    i = (i + 1) % STATUS_FLAVOR.length;
-    if (progressClose.hidden) {
-      progressLog.textContent = STATUS_FLAVOR[i];
-    }
-  }, 3200);
+  const flavorId = ++flavorRunId;
+  void runFlavorTop(flavorId, deck);
 }
 
 function setProgress(msg, pct) {
-  progressMsg.textContent = msg;
   progressBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  enqueueConsole(msg);
 }
 
 function closeProgressSoon() {
-  clearInterval(flavorTimer);
+  jobActive = false;
+  stopFlavorTop();
   progressClose.hidden = false;
 }
 
@@ -206,16 +346,21 @@ createBtn.addEventListener("click", async () => {
   openProgress();
   try {
     const { zip, filename } = await prepareSdPackage(apkFile, setProgress);
+    jobActive = false;
+    stopFlavorTop();
+    progressMsg.textContent = "Mission complete.";
     play("logbook");
     downloadBytes(zip, filename);
-    setProgress("Mission complete.\nDownload starting...", 100);
-    progressLog.textContent =
-      "Copy mpo_nx/ to sdmc:/switch/\nUse full RAM launch or Forwarder";
+    progressBar.style.width = "100%";
+    await flushConsoleThen("Copy mpo_nx/ to sdmc:/switch/ · Use full RAM launch or Forwarder");
     setStatus("Downloaded. See How to install for instructions.");
   } catch (err) {
     console.error(err);
-    setProgress("Mission failed.", 100);
-    progressLog.textContent = err.message || String(err);
+    jobActive = false;
+    stopFlavorTop();
+    progressMsg.textContent = "Mission failed.";
+    progressBar.style.width = "100%";
+    await flushConsoleThen(err.message || String(err));
     setStatus(err.message || String(err));
     play("metroid");
   } finally {
