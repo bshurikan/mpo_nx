@@ -298,34 +298,6 @@ async function flushConsoleThen(finalMessage) {
   }
 }
 
-async function flushConsoleThen(finalMessage) {
-  const runId = consoleRunId;
-  const deadline = performance.now() + 600;
-  while (
-    runId === consoleRunId &&
-    (consolePumping || consoleQueue.length) &&
-    performance.now() < deadline
-  ) {
-    if (!consolePumping && consoleQueue.length) void pumpConsole(runId);
-    await sleep(16);
-  }
-  if (runId !== consoleRunId) return;
-  /* Snap any leftovers so every status line was shown. */
-  const leftover = consoleQueue.slice();
-  consoleQueue = [];
-  consolePumping = false;
-  for (const msg of leftover) {
-    const row = appendConsoleLine();
-    row.text.textContent = msg;
-    finishConsoleRow(row);
-  }
-  for (const part of String(finalMessage).split(/\n+/).filter(Boolean)) {
-    const row = appendConsoleLine();
-    row.text.textContent = part;
-    finishConsoleRow(row);
-  }
-}
-
 function flavorForPct(pct) {
   const n = STATUS_FLAVOR.length;
   const idx = Math.min(n - 1, Math.floor((Math.max(0, Math.min(100, pct)) / 100) * n));
