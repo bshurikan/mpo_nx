@@ -201,15 +201,38 @@ function clearConsole() {
   if (consoleViewport) consoleViewport.replaceChildren();
 }
 
-function appendConsoleLine() {
-  const line = document.createElement("div");
-  line.className = "console-line";
-  const text = document.createElement("span");
-  text.className = "console-text";
+function makeConsoleCursor() {
   const cursor = document.createElement("span");
   cursor.className = "console-cursor";
   cursor.setAttribute("aria-hidden", "true");
   cursor.textContent = "█";
+  return cursor;
+}
+
+/** Keep one blinking caret at the end of the log (matches focus pulse). */
+function ensureIdleCursor() {
+  if (!consoleViewport) return;
+  consoleViewport.querySelectorAll(".console-cursor").forEach((el) => el.remove());
+  const last = consoleViewport.lastElementChild;
+  if (last) {
+    last.appendChild(makeConsoleCursor());
+    return;
+  }
+  const line = document.createElement("div");
+  line.className = "console-line console-line-idle";
+  line.appendChild(makeConsoleCursor());
+  consoleViewport.appendChild(line);
+}
+
+function appendConsoleLine() {
+  if (!consoleViewport) return { line: null, text: null, cursor: null };
+  consoleViewport.querySelectorAll(".console-cursor").forEach((el) => el.remove());
+  consoleViewport.querySelectorAll(".console-line-idle").forEach((el) => el.remove());
+  const line = document.createElement("div");
+  line.className = "console-line";
+  const text = document.createElement("span");
+  text.className = "console-text";
+  const cursor = makeConsoleCursor();
   line.append(text, cursor);
   consoleViewport.appendChild(line);
   while (consoleViewport.children.length > CONSOLE_MAX_LINES) {
@@ -219,8 +242,9 @@ function appendConsoleLine() {
 }
 
 function finishConsoleRow(row) {
-  row.cursor.remove();
-  row.line.classList.add("console-line-done");
+  row.cursor?.remove();
+  row.line?.classList.add("console-line-done");
+  ensureIdleCursor();
 }
 
 /** Typing vibe when caught up; snap when backlog so we never hang past the job. */
@@ -296,6 +320,7 @@ async function flushConsoleThen(finalMessage) {
     row.text.textContent = part;
     finishConsoleRow(row);
   }
+  ensureIdleCursor();
 }
 
 function flavorForPct(pct) {
@@ -340,6 +365,7 @@ function openProgress() {
   stopFlavorTop();
   stopConsole();
   clearConsole();
+  ensureIdleCursor();
   consoleRunId += 1;
   progressMsg.textContent = STATUS_FLAVOR[0];
   progressDlg.showModal();
