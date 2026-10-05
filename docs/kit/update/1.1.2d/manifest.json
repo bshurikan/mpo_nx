@@ -1,0 +1,17 @@
+{
+  "version": "1.1.2d",
+  "description": "NX update pack: YYC runner + game.droid (perf + GML ship teleport/sorting). Overlay onto official Origins 1.1.2 APK assets.",
+  "requiresOfficialApk": {
+    "libyoyoSha256": "954f22658117e7fccb5be89d54cf0262b204243610c788a43d5789314b3423ff",
+    "libyoyoSize": 34105584,
+    "gameDroidSha256": "e356de6d3a8e5a66b61018a3c701a005a289b71b80e35fcb56d58e95bf7824d5",
+    "gameDroidSize": 17151184,
+    "apkSize": 238306388
+  },
+  "pack": {
+    "libyoyoSha256": "b3a6b3326534c4cfaf4e72db710dbba2cbfac4793d23d8047cbc7f2d14e3bffc",
+    "libyoyoSize": 34089640,
+    "gameDroidSha256": "e26006506c29e18abc826d4e56f68e4a9ee345c279fb9a0205032a40eadd28d1",
+    "gameDroidSize": 17153360
+  }
+}
