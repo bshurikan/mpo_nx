@@ -1,6 +1,6 @@
 import "./bg.js";
 import { prepareSdPackage } from "./prepare.js";
-import { downloadBytes } from "./zip.js";
+import { downloadBlob } from "./zip.js";
 
 /**
  * TOP: funny flavor — fixed order, ~0.9s each, only while the job runs.
@@ -311,10 +311,30 @@ async function runFlavorTop(runId, lines) {
   }
 }
 
+let lastConsoleMsg = "";
+
+function setProgress(msg, pct) {
+  progressBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  /* Assemble hash spam: rewrite the current console line instead of flooding. */
+  if (/^Assembling SD image — hashing/.test(msg)) {
+    const lines = consoleViewport?.querySelectorAll(".console-line");
+    const last = lines && lines[lines.length - 1];
+    const text = last?.querySelector(".console-text");
+    if (text) {
+      text.textContent = msg;
+      return;
+    }
+  }
+  if (msg === lastConsoleMsg) return;
+  lastConsoleMsg = msg;
+  enqueueConsole(msg);
+}
+
 function openProgress() {
   progressBar.style.width = "0%";
   progressClose.hidden = true;
   jobActive = true;
+  lastConsoleMsg = "";
   stopFlavorTop();
   stopConsole();
   clearConsole();
@@ -325,11 +345,6 @@ function openProgress() {
   play("scan");
   const flavorId = ++flavorRunId;
   void runFlavorTop(flavorId, deck);
-}
-
-function setProgress(msg, pct) {
-  progressBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
-  enqueueConsole(msg);
 }
 
 function closeProgressSoon() {
@@ -350,7 +365,7 @@ createBtn.addEventListener("click", async () => {
     stopFlavorTop();
     progressMsg.textContent = "Mission complete.";
     play("logbook");
-    downloadBytes(zip, filename);
+    downloadBlob(zip, filename);
     progressBar.style.width = "100%";
     await flushConsoleThen("Copy mpo_nx/ to sdmc:/switch/ · Use full RAM launch or Forwarder");
     setStatus("Downloaded. See How to install for instructions.");

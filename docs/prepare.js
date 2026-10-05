@@ -257,11 +257,14 @@ export async function prepareSdPackage(apkFile, onProgress) {
 
   await report("Assembling SD image. Log 99.prep.1 - zip in progress...", 88);
   await tick();
-  const zip = await buildZip(out);
+  const zipBlob = await buildZip(out, (msg, frac) => {
+    const pct = 88 + Math.floor(Math.max(0, Math.min(1, frac)) * 11);
+    if (onProgress) onProgress(msg, pct);
+  });
   await report(`Data decoded. Package ready (${UPDATE_VERSION}).`, 100);
 
   return {
-    zip,
+    zip: zipBlob,
     filename: `mpo_nx-${UPDATE_VERSION}-sd.zip`,
   };
 }
