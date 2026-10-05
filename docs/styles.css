@@ -387,16 +387,42 @@ h2 {
 }
 
 .progress-log {
-  height: 9.5em;
-  min-height: 9.5em;
-  max-height: 9.5em;
-  margin: 0 0 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  margin: 0 0 4px;
   overflow: auto;
   padding: 8px 10px;
   border: 1px solid color-mix(in srgb, var(--line) 35%, transparent);
   border-radius: 8px;
   background: color-mix(in srgb, #000 45%, transparent);
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--line) 55%, transparent)
+    color-mix(in srgb, #000 35%, transparent);
+}
+
+.progress-log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.progress-log::-webkit-scrollbar-track {
+  background: color-mix(in srgb, #000 35%, transparent);
+  border-radius: 8px;
+}
+
+.progress-log::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--line) 55%, transparent);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.progress-log::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--flash, var(--accent)) 70%, var(--line));
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
 .console-viewport {
@@ -437,20 +463,26 @@ h2 {
 
 #progress {
   width: min(520px, calc(100% - 28px));
-  height: 380px;
+  height: min(380px, calc(100vh - 48px));
   max-width: 520px;
-  max-height: 380px;
+  max-height: min(380px, calc(100vh - 48px));
   border-radius: 16px;
   box-sizing: border-box;
+  overflow: hidden;
+  padding: 22px 22px 18px;
 }
 
 #progress[open] {
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
 #progress .dialog-actions {
+  flex: 0 0 auto;
   margin-top: auto;
+  padding-top: 10px;
+  padding-bottom: 2px;
 }
 
 footer {
@@ -517,7 +549,7 @@ dialog:not([open]) {
 #progress-close:hover,
 #progress-close:focus:hover {
   outline: 3px solid var(--focus-a);
-  outline-offset: 2px;
+  outline-offset: 0;
   animation: pulse-focus 850ms infinite;
 }
 
