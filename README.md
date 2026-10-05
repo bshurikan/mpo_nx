@@ -27,9 +27,12 @@ Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; pr
 2. Drop your **Origins 1.1.2+ APK** and click **Prepare SD**
 3. Extract the zip and copy **`mpo_nx/`** to **`sdmc:/switch/mpo_nx/`**
 
-### OLD Method A - Easy (Windows prep script)
+[![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
 
-Same result as the web tool, using the release zip.
+### OLD Method A - Easy (Windows prep script) 
+
+> **Important:** from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
+> Same result as the web tool, using the release zip.
 
 1. Extract **`mpo-switch-release.zip`**.
 2. Double-click and run **`tools/Prepare SD Card.bat`**.
