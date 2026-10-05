@@ -17,7 +17,8 @@ const KIT = {
   controller: "./kit/gamecontrollerdb.txt",
   prepend: "./kit/sdl2_yyc_prepend.txt",
   updateManifest: `./kit/update/${UPDATE_VERSION}/manifest.json`,
-  updateLib: `./kit/update/${UPDATE_VERSION}/libyoyo.so`,
+  /* Hosted as zip — GitHub rejects bare ~34MB libyoyo.so; fflate unpacks in-browser. */
+  updateLibZip: `./kit/update/${UPDATE_VERSION}/libyoyo.so.zip`,
   updateDroid: `./kit/update/${UPDATE_VERSION}/game.droid`,
 };
 
@@ -96,6 +97,26 @@ function findLibEntry(files) {
   );
 }
 
+/** Unpack hosted libyoyo.so.zip → bare .so bytes. */
+function extractLibyoyoFromZip(zipBytes) {
+  let files;
+  try {
+    files = unzipSync(zipBytes);
+  } catch (err) {
+    throw new Error(`Could not read libyoyo.so.zip: ${err.message || err}`);
+  }
+  const keys = Object.keys(files).filter((k) => !k.endsWith("/"));
+  const hit =
+    keys.find((k) => /(^|\/)libyoyo\.so$/i.test(k.replace(/\\/g, "/"))) ||
+    keys.find((k) => /\.so$/i.test(k));
+  if (!hit) {
+    throw new Error(
+      `libyoyo.so.zip missing libyoyo.so. Found: ${keys.join(", ") || "(none)"}`
+    );
+  }
+  return files[hit];
+}
+
 /**
  * @param {File} apkFile
  * @param {(msg: string, pct: number) => void} onProgress
@@ -147,16 +168,22 @@ export async function prepareSdPackage(apkFile, onProgress) {
   }
 
   await report("Fetching NX update pack + wrapper kit...", 28);
-  const [nro, configRaw, sdl2Root, controllerDb, prepend, updateLib, updateDroid] =
+  const [nro, configRaw, sdl2Root, controllerDb, prepend, updateLibZip, updateDroid] =
     await Promise.all([
       fetchBytes(KIT.nro, "mpo_nx.nro"),
       fetchText(KIT.config),
       fetchBytes(KIT.sdl2, "sdl2.txt"),
       fetchBytes(KIT.controller, "gamecontrollerdb.txt"),
       fetchText(KIT.prepend),
-      fetchBytes(KIT.updateLib, "update libyoyo.so", (m) => onProgress && onProgress(m, 34)),
-      fetchBytes(KIT.updateDroid, "update game.droid", (m) => onProgress && onProgress(m, 40)),
+      fetchBytes(KIT.updateLibZip, "update libyoyo.so.zip", (m) =>
+        onProgress && onProgress(m, 34)
+      ),
+      fetchBytes(KIT.updateDroid, "update game.droid", (m) =>
+        onProgress && onProgress(m, 40)
+      ),
     ]);
+
+  const updateLib = extractLibyoyoFromZip(updateLibZip);
 
   const packLibHash = await sha256Hex(updateLib);
   const packDroidHash = await sha256Hex(updateDroid);
