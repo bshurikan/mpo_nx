@@ -32,6 +32,7 @@ Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; pr
 ### OLD Method A - Easy (Windows prep script) 
 
 > **Important:** from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
+
 > Same result as the web tool, using the release zip.
 
 1. Extract **`mpo-switch-release.zip`**.
