@@ -14,9 +14,9 @@ const STATUS_FLAVOR = [
   "Metroid containment nominal. Probably.",
 ];
 
-const CONSOLE_TYPE_MS = 3;
-const CONSOLE_CHUNK = 3;
-const CONSOLE_GAP_MS = 35;
+const CONSOLE_TYPE_MS = 4;
+const CONSOLE_CHUNK = 4;
+const CONSOLE_GAP_MS = 50;
 const CONSOLE_MAX_LINES = 6;
 
 const fileInput = document.getElementById("file");

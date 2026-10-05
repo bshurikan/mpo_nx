@@ -1,14 +1,14 @@
-import { unzipSync } from "./vendor/fflate.esm.js";
+import { unzip } from "./vendor/fflate.esm.js";
 import { buildZip } from "./zip.js";
 
 /** Public 1.1.2d: official APK assets + hosted YYC runner/game.droid (no binary stubs). */
 const UPDATE_VERSION = "1.1.2d";
 
 /**
- * Job-status lines go to the typewriter console (app.js). Keep dwell low —
- * typing already paces them; a long dwell just stalls the zip.
+ * Pause between status lines so the console typewriter can finish & the tab stays responsive.
+ * Heavy work (unzip / CRC / zip) also yields — see tick() call sites + zip.js.
  */
-export const STATUS_DWELL_MS = 0;
+export const STATUS_DWELL_MS = 280;
 
 const KIT = {
   nro: "./kit/mpo_nx.nro",
@@ -40,6 +40,8 @@ function makeReporter(onProgress) {
     }
     if (onProgress) onProgress(msg, pct);
     lastShown = performance.now();
+    /* Let the typewriter / paint run before the next sync burst. */
+    await sleep(dwell ? 40 : 0);
   };
 }
 
@@ -62,6 +64,16 @@ async function sha256Hex(bytes) {
   return [...new Uint8Array(digest)]
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
+}
+
+/** Async unzip so a 238MB APK does not lock the UI for the whole inflate. */
+function unzipAsync(data, opts) {
+  return new Promise((resolve, reject) => {
+    unzip(data, opts || {}, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
 }
 
 function ensureConfigDefaults(configText) {
@@ -97,14 +109,9 @@ function findLibEntry(files) {
   );
 }
 
-/** Unpack hosted libyoyo.so.zip → bare .so bytes. */
-function extractLibyoyoFromZip(zipBytes) {
-  let files;
-  try {
-    files = unzipSync(zipBytes);
-  } catch (err) {
-    throw new Error(`Could not read libyoyo.so.zip: ${err.message || err}`);
-  }
+/** Unpack hosted libyoyo.so.zip → bare .so bytes (async). */
+async function extractLibyoyoFromZip(zipBytes) {
+  const files = await unzipAsync(zipBytes);
   const keys = Object.keys(files).filter((k) => !k.endsWith("/"));
   const hit =
     keys.find((k) => /(^|\/)libyoyo\.so$/i.test(k.replace(/\\/g, "/"))) ||
@@ -128,9 +135,10 @@ export async function prepareSdPackage(apkFile, onProgress) {
   await report("Scanning package...", 2);
 
   const apkBuf = new Uint8Array(await apkFile.arrayBuffer());
+  await tick();
   let apkFiles;
   try {
-    apkFiles = unzipSync(apkBuf, {
+    apkFiles = await unzipAsync(apkBuf, {
       filter: (file) => {
         const path = file.name || "";
         return (
@@ -143,6 +151,7 @@ export async function prepareSdPackage(apkFile, onProgress) {
   } catch (err) {
     throw new Error(`Could not read APK as zip: ${err.message || err}`);
   }
+  await tick();
 
   const libKey = findLibEntry(apkFiles);
   const stockLib = apkFiles[libKey];
@@ -156,6 +165,7 @@ export async function prepareSdPackage(apkFile, onProgress) {
   const req = manifest.requiresOfficialApk || {};
   const pack = manifest.pack || {};
   const stockLibHash = await sha256Hex(stockLib);
+  await tick();
   const stockDroidHash = await sha256Hex(stockDroid);
   if (
     (req.libyoyoSha256 && stockLibHash !== req.libyoyoSha256) ||
@@ -183,9 +193,12 @@ export async function prepareSdPackage(apkFile, onProgress) {
       ),
     ]);
 
-  const updateLib = extractLibyoyoFromZip(updateLibZip);
+  await tick();
+  const updateLib = await extractLibyoyoFromZip(updateLibZip);
+  await tick();
 
   const packLibHash = await sha256Hex(updateLib);
+  await tick();
   const packDroidHash = await sha256Hex(updateDroid);
   if (
     (pack.libyoyoSha256 && packLibHash !== pack.libyoyoSha256) ||
@@ -224,14 +237,15 @@ export async function prepareSdPackage(apkFile, onProgress) {
     }
     out[`mpo_nx/assets/${rel}`] = data;
     i++;
-    if (i % 40 === 0 || i === assetKeys.length) {
+    /* Yield every file so the console can type and Chrome won't "page not responding". */
+    if (i % 2 === 0) await tick();
+    if (i % 8 === 0 || i === assetKeys.length) {
       const pct = 55 + Math.floor((i / assetKeys.length) * 30);
       if (pct !== lastCatalogPct) {
         lastCatalogPct = pct;
         await report(`Cataloguing artifacts... ${i}/${assetKeys.length}`, pct, {
           dwell: false,
         });
-        await tick();
       }
     }
   }
@@ -242,6 +256,7 @@ export async function prepareSdPackage(apkFile, onProgress) {
   out["mpo_nx/assets/game.droid"] = updateDroid;
 
   await report("Assembling SD image. Log 99.prep.1 - zip in progress...", 88);
+  await tick();
   const zip = await buildZip(out);
   await report(`Data decoded. Package ready (${UPDATE_VERSION}).`, 100);
 

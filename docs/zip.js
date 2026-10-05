@@ -5,9 +5,18 @@ for (let i = 0; i < 256; i++) {
   CRC_TABLE[i] = c >>> 0;
 }
 
-function crc32(bytes) {
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+/** CRC in chunks so huge files (game.apk ~238MB) don't freeze the tab. */
+async function crc32Async(bytes) {
   let c = 0xffffffff;
-  for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+  const chunk = 512 * 1024;
+  for (let i = 0; i < bytes.length; i++) {
+    c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+    if (i > 0 && i % chunk === 0) await sleep(0);
+  }
   return (c ^ 0xffffffff) >>> 0;
 }
 
@@ -34,10 +43,11 @@ export async function buildZip(files) {
   let offset = 0;
   const names = Object.keys(files).sort();
 
-  for (const name of names) {
+  for (let n = 0; n < names.length; n++) {
+    const name = names[n];
     const data = files[name];
     const nameBytes = utf8(name);
-    const crc = crc32(data);
+    const crc = await crc32Async(data);
     const local = new Uint8Array(30 + nameBytes.length + data.length);
     const view = new DataView(local.buffer);
     view.setUint32(0, 0x04034b50, true);
@@ -50,7 +60,13 @@ export async function buildZip(files) {
     view.setUint32(22, data.length, true);
     view.setUint16(26, nameBytes.length, true);
     local.set(nameBytes, 30);
-    local.set(data, 30 + nameBytes.length);
+    /* Copy large payloads in slices so the UI can paint. */
+    const payloadAt = 30 + nameBytes.length;
+    const slice = 1024 * 1024;
+    for (let i = 0; i < data.length; i += slice) {
+      local.set(data.subarray(i, Math.min(i + slice, data.length)), payloadAt + i);
+      if (data.length > slice) await sleep(0);
+    }
     locals.push(local);
 
     const central = new Uint8Array(46 + nameBytes.length);
@@ -69,6 +85,7 @@ export async function buildZip(files) {
     central.set(nameBytes, 46);
     centrals.push(central);
     offset += local.length;
+    await sleep(0);
   }
 
   const centralSize = centrals.reduce((n, b) => n + b.length, 0);
@@ -84,7 +101,11 @@ export async function buildZip(files) {
   const out = new Uint8Array(total);
   let pos = 0;
   for (const part of locals) {
-    out.set(part, pos);
+    const slice = 1024 * 1024;
+    for (let i = 0; i < part.length; i += slice) {
+      out.set(part.subarray(i, Math.min(i + slice, part.length)), pos + i);
+      if (part.length > slice) await sleep(0);
+    }
     pos += part.length;
   }
   for (const part of centrals) {
