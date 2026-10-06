@@ -1,5 +1,5 @@
 <div align="center">
-<img width="256" height="256" alt="MPO" src="docs/assets/icon.png" />
+<img alt="MPO" src="docs/assets/icon.png" />
 </div>
 
 # Metroid Prime Origins - Nintendo Switch Port
