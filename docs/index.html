@@ -76,14 +76,16 @@
         <div class="console-viewport" id="console-viewport"></div>
       </div>
       <div class="dialog-actions progress-actions">
-        <button class="primary compact switch-focus-ring" id="progress-download" type="button" disabled>Download</button>
-        <button class="ghost compact switch-focus-ring" id="progress-close" type="button" hidden>Close</button>
+        <label class="progress-auto">
+          <input type="checkbox" id="auto-download" />
+          <span class="progress-auto-box" aria-hidden="true"></span>
+          <span class="progress-auto-label">Auto Download when ready</span>
+        </label>
+        <div class="progress-actions-btns">
+          <button class="primary compact switch-focus-ring" id="progress-download" type="button" disabled>Download</button>
+          <button class="ghost compact switch-focus-ring" id="progress-close" type="button" hidden>Close</button>
+        </div>
       </div>
-      <label class="progress-auto">
-        <input type="checkbox" id="auto-download" />
-        <span class="progress-auto-box" aria-hidden="true"></span>
-        <span class="progress-auto-label">Auto Download when ready</span>
-      </label>
     </dialog>
 
     <dialog id="help">

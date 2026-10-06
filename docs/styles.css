@@ -614,10 +614,20 @@ h2 {
 
 .progress-actions {
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  text-align: right;
+  gap: 12px;
+  min-width: 0;
+}
+
+.progress-actions-btns {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
 }
 
 .ghost.compact {
@@ -626,14 +636,14 @@ h2 {
 }
 
 .progress-auto {
-  flex: 0 0 auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  margin: 0;
+  min-width: 0;
+  flex: 1 1 auto;
   color: var(--muted);
-  font: 600 0.9rem/1.2 "Open Sans", system-ui, sans-serif;
+  font: 600 0.82rem/1.2 "Open Sans", system-ui, sans-serif;
   cursor: pointer;
   user-select: none;
   border-radius: 2px;
@@ -675,6 +685,7 @@ h2 {
 
 .progress-auto-label {
   color: var(--muted);
+  white-space: nowrap;
   transition: color 160ms ease;
 }
 
@@ -826,7 +837,9 @@ pre {
   }
   .seg button { flex: 1; padding: 12px 8px; }
   .panel-bar .primary { width: auto; flex: 0 0 auto; }
-  .progress-actions { flex-wrap: wrap; }
+  .progress-auto { font-size: 0.78rem; }
+  .ghost.compact { padding: 12px 12px; }
+  .primary.compact { padding: 12px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

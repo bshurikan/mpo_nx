@@ -436,7 +436,6 @@ createBtn.addEventListener("click", async () => {
     }
     await flushConsoleThen(
       "Extract and copy mpo_nx/ to sdmc:/switch/mpo_nx/\n" +
-        "game.apk is already in the zip\n" +
         "Full RAM launch (hold R) or Forwarder"
     );
   } catch (err) {
