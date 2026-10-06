@@ -16,19 +16,15 @@ You need:
 
 1. Your [Metroid Prime Origins v1.1.2 or later APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
 
-2. This repo / [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool **or** a release zip 
-
-Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
-   
+2. This repo / [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool
+  
 ---
 
 ### Method S - Easy (web app, any OS)
 
-Prepares Switch port and patches automatically. Nothing is uploaded; prep runs on your device.
-
-1. Open the **Switch Port Generator** (button below)
-2. Drop your **official Metroid Prime Origins Android APK v1.1.2**
-3. Click **Prepare SD** and download the zip
+1. Open the **Switch Port Generator** (button below).
+2. Drop your **official Metroid Prime Origins Android APK v1.1.2**.
+3. Click **Prepare SD** and download the generated zip file.
 4. Extract → copy `mpo_nx/` → `sdmc:/switch/mpo_nx/`
 5. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
 
@@ -89,9 +85,9 @@ sdmc:/switch/mpo_nx/
     └── ...
 ```
 
-## Controls
+## 🎮 Controls
 
-| Switch | Action |
+| Switch Input | Action |
 |--------|--------|
 | D-pad / Left stick | Move / menus |
 | Face buttons | Origins defaults (A accept/jump, etc.) |
@@ -103,8 +99,6 @@ sdmc:/switch/mpo_nx/
 <img width="700" alt="NX Options Menu" src="https://github.com/user-attachments/assets/cc7ba2a7-11c0-41e0-bc64-6a4019ee96b7" />
 
 ## Configuration (`config.txt`)
-
-Editable on PC or via **L3+R3** NX Options (saves on close). Resolution needs a restart.
 
 | Key | Default | Notes |
 |-----|---------|-------|
