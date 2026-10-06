@@ -15,7 +15,6 @@
 You need:
 
 1. Your [Metroid Prime Origins v1.1.2 or later APK](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (Latest Switch Supported version) **Hint:** Discord
-
 2. This repo / [Switch Port Generator](https://bshurikan.github.io/mpo_nx/) tool
   
 ---
