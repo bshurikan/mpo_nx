@@ -21,7 +21,7 @@ Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
 
 ### NEW Method A - Super Easy (Universal web app, any OS) - recommended
 
-Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; prep runs on your device.
+Prepares Switch port and patches automatically. Nothing is uploaded; prep runs on your device.
 
 1. Open the **Switch Port Generator** (button below)
 2. Drop your **official Metroid Prime Origins Android APK v1.1.2**
@@ -32,7 +32,8 @@ Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; pr
 
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
 
-### OLD Method A - Easy (Windows prep script) 
+<details>
+<summary>### OLD Method A - Easy (Windows prep script)</summary>
 
 > **Important:** from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
 
@@ -43,11 +44,12 @@ Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; pr
 3. Select your **Metroid Prime Origins Android APK** when prompted.
 4. Copy the generated **`sd_card/mpo_nx/`** folder to **`sdmc:/switch/mpo_nx/`** 
 
-> If the script fails, use Method A (browser) or Method B.
+> If the script fails, use Method A (browser) or Method B.</details>
 
 ---
 
-### Method B - Moderate (Manual procedure, any OS)
+<details>
+<summary>### Method B - Moderate (Manual procedure, any OS)</summary>
 > **Important:** Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
@@ -62,6 +64,7 @@ Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; pr
 4. Copy **`sdl2.txt`** from the release folder into **`mpo_nx/assets/sdl2.txt`** as well (overwrite if the APK already has one). This helps Switch gamepad mapping on YYC.
 5. Confirm **`config.txt`** has **`input_profile 1`** (required for YYC / Input 10; wrapper default).
 6. Copy the finished **`mpo_nx/`** folder to **`sdmc:/switch/mpo_nx/`**.
+</details>
 
 Final layout:
 
