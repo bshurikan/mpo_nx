@@ -116,9 +116,8 @@ sdmc:/switch/mpo_nx/
 > [!TIP]
 > **In-game:** press **L3 + R3** to open **NX Options**. Toggle FPS / VSync / clocks / resolution (changes written to `config.txt`).
 
+> [!TIP]
 > \(\color{#22c55e}\text{\bf In-game:}\) press \(\color{#22c55e}\text{\bf L3\ +\ R3}\) to open \(\color{#22c55e}\text{\bf NX\ Options}\). Toggle FPS / VSync / clocks / resolution (changes written to `config.txt`).
-
-This is $\color{red}\text{red\ text}$ and this is $\color{#1589F0}\text{blue\ text}$.
 
 ## 🌡 Performance
 
