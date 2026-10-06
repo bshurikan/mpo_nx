@@ -32,6 +32,8 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
 
+---
+
 <details>
 <summary>OLD Method A - Easy (Windows prep script)</summary>
 
@@ -65,6 +67,8 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 5. Confirm **`config.txt`** has **`input_profile 1`** (required for YYC / Input 10; wrapper default).
 6. Copy the finished **`mpo_nx/`** folder to **`sdmc:/switch/mpo_nx/`**.
 </details>
+
+---
 
 Final layout:
 
