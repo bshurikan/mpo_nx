@@ -29,8 +29,6 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 4. Extract → copy `mpo_nx/` → `sdmc:/switch/mpo_nx/`
 5. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
 
-[![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
-
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f2b040?style=for-the-badge)](https://bshurikan.github.io/mpo_nx/)
 
 ---
