@@ -99,7 +99,7 @@ sdmc:/switch/mpo_nx/
 <img width="700" alt="NX Options Menu" src="https://github.com/user-attachments/assets/cc7ba2a7-11c0-41e0-bc64-6a4019ee96b7" />
 <br>
 
-## 🔧 Configuration (`config.txt`)
+## 🔧 Configuration
 
 | Key | Default | Notes |
 |-----|---------|-------|
@@ -122,7 +122,7 @@ As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with
 
 **UPDATE:** As of v1.1.2d preformance has been significantly improved and maintains a solid 50-60fps in areas that used to have slow down. 
 
-## 💌 Credits
+## 🙏 Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
 - Metroid Prime Origins by Lv.4 Games (fan project). Not affiliated.
