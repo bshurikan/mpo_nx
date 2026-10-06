@@ -135,7 +135,7 @@ make
 
 Produces `mpo_nx.nro`.
 
-[!WARNING]## Credits
+## [!WARNING]Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
 - Metroid Prime Origins by Lv.4 Games (fan project). Not affiliated.
