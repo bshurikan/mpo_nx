@@ -135,6 +135,9 @@ make
 
 Produces `mpo_nx.nro`.
 
+$${\color{orange}\text{This entire block of text is orange!}}$$
+
+
 ## Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
