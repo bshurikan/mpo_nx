@@ -37,8 +37,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 <details>
 <summary>Method A - Easy (Windows prep script) [Depricated]</summary>
 
-> [!IMPORTANT]
-> from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
+> **Important:** from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
 
 > Same result as the web tool, using the release zip.
 
@@ -54,8 +53,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 <details>
 <summary>Method B - Moderate (Manual any OS) [Depricated]</summary>
    
-> [!IMPORTANT]
-> Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
+> **Important:** Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
    - `mpo_nx.nro`
