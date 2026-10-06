@@ -10,6 +10,7 @@
 > [!IMPORTANT]
 > This repository contains **only the Switch wrapper** - no game data and no GameMaker runner binary. You must supply those yourself.
 
+---
 ## 💿 Installation
 
 You need:
