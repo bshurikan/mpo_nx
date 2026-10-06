@@ -123,7 +123,7 @@ As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with
 > [!NOTE]
 > **UPDATE:** As of v1.1.2d preformance has been significantly improved and maintains a solid 50-60fps in areas that used to have slow down. 
 
-## 🙏 Credits
+## 👾 Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
 - Metroid Prime Origins by Lv.4 Games (fan project). Not affiliated.
