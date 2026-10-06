@@ -34,7 +34,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 ---
 
 <details>
-<summary>Method A - Easy (Windows prep script)</summary>
+<summary>Method A - Easy (Windows prep script) [Depricated]</summary>
 
 > **Important:** from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
 
@@ -50,7 +50,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 ---
 
 <details>
-<summary>Method B - Moderate (Manual any OS)</summary>
+<summary>Method B - Moderate (Manual any OS) [Depricated]</summary>
    
 > **Important:** Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
