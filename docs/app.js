@@ -11,7 +11,6 @@ const STATUS_FLAVOR = [
   "Space Pirate encrypted data decoded.",
   "Science Team requests additional coffee rations.",
   "Don't feed the Metroids.",
-  "Metroid containment nominal. Probably.",
 ];
 /** Each flavor stays this long, then advances; last one holds until done. */
 const FLAVOR_HOLD_MS = 3200;
