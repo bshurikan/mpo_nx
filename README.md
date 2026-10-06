@@ -23,11 +23,12 @@ Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
 
 Prepares Switch port and patches QOL mods automatically. Nothing is uploaded; prep runs on your device.
 
-1. Open **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
-2. Drop your **Origins 1.1.2+ APK** and click **Prepare SD**
-3. Extract the zip and copy **`mpo_nx/`** to **`sdmc:/switch/mpo_nx/`**
-4. Copy your Origins APK into that folder as `game.apk`
-5. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
+1. Open the **Switch Port Generator** (button below)
+2. Drop your **official Metroid Prime Origins Android APK v1.1.2**
+3. Click **Prepare SD** and download the zip
+4. Extract → copy `mpo_nx/` → `sdmc:/switch/mpo_nx/`
+5. Copy your Origins APK into that folder as `game.apk`
+6. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
 
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
 
