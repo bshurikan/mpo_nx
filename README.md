@@ -19,7 +19,7 @@ Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
    
 ---
 
-### NEW Method A - Super Easy (Universal web app, any OS) - recommended
+### Method S - Super Easy (Universal web app, any OS) - recommended
 
 Prepares Switch port and patches automatically. Nothing is uploaded; prep runs on your device.
 
@@ -33,7 +33,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
 
 <details>
-<summary>### OLD Method A - Easy (Windows prep script)</summary>
+<summary>OLD Method A - Easy (Windows prep script)</summary>
 
 > **Important:** from 1.1.2d onward use **[Switch Port Generator](https://bshurikan.github.io/mpo_nx/)**
 
@@ -49,7 +49,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 ---
 
 <details>
-<summary>### Method B - Moderate (Manual procedure, any OS)</summary>
+<summary>Method B - Moderate (Manual procedure, any OS)</summary>
 > **Important:** Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
@@ -114,7 +114,9 @@ In-game: press **L3 + R3** to open **NX Options**. Toggle FPS / VSync / clocks /
 
 ## Performance
 
-As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with Lv.4 to release the Android version), this allows for full performance 100% full speed except in some rooms with many sprites. It is 100% playable, enjoy! 
+As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with Lv.4 to release the Android version), this allows for 100% full speed except in some rooms with many sprites. It is 100% playable, enjoy! 
+
+**UPDATE:** As of v1.1.2d preformance has been significantly improved and maintains a solid 50-60fps in areas that used to have slow down. 
 
 ## Building from source
 
