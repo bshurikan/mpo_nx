@@ -100,7 +100,7 @@ sdmc:/switch/mpo_nx/
 <img width="700" alt="NX Options Menu" src="https://github.com/user-attachments/assets/cc7ba2a7-11c0-41e0-bc64-6a4019ee96b7" />
 <br>
 
-## Configuration (`config.txt`)
+## ⚙ Configuration (`config.txt`)
 
 | Key | Default | Notes |
 |-----|---------|-------|
