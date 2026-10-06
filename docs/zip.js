@@ -81,13 +81,13 @@ export async function buildZip(files, onProgress) {
     const short = name.replace(/^mpo_nx\//, "");
 
     if (onProgress) {
-      onProgress(`Assembling SD image — hashing ${short}...`, doneBytes / totalBytes);
+      onProgress(`Assembling SD image - hashing ${short}...`, doneBytes / totalBytes);
     }
 
     const crc = await crc32Async(data, (frac) => {
       if (onProgress) {
         const overall = (doneBytes + frac * data.length) / totalBytes;
-        onProgress(`Assembling SD image — hashing ${short}...`, overall);
+        onProgress(`Assembling SD image - hashing ${short}...`, overall);
       }
     });
 
@@ -126,7 +126,7 @@ export async function buildZip(files, onProgress) {
     offset += localHead.length + data.length;
     doneBytes += data.length;
     if (onProgress) {
-      onProgress(`Assembling SD image — packed ${short}`, doneBytes / totalBytes);
+      onProgress(`Assembling SD image - packed ${short}`, doneBytes / totalBytes);
     }
     await sleep(0);
   }
@@ -143,7 +143,7 @@ export async function buildZip(files, onProgress) {
   ev.setUint32(16, offset, true);
   parts.push(end);
 
-  if (onProgress) onProgress("Assembling SD image — finalizing download...", 1);
+  if (onProgress) onProgress("Assembling SD image - finalizing download...", 1);
   await sleep(0);
   return new Blob(parts, { type: "application/zip" });
 }

@@ -352,7 +352,7 @@ let lastConsoleMsg = "";
 function setProgress(msg, pct) {
   progressBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
   /* Assemble hash spam: rewrite the current console line instead of flooding. */
-  if (/^Assembling SD image — hashing/.test(msg)) {
+  if (/^Assembling SD image - hashing/.test(msg)) {
     const lines = consoleViewport?.querySelectorAll(".console-line");
     const last = lines && lines[lines.length - 1];
     const text = last?.querySelector(".console-text");
@@ -401,8 +401,8 @@ createBtn.addEventListener("click", async () => {
     downloadBlob(zip, filename);
     progressBar.style.width = "100%";
     await flushConsoleThen(
-      "Extract → copy mpo_nx/ to sdmc:/switch/mpo_nx/\n" +
-        "Also copy your Origins APK into that folder as game.apk\n" +
+      "Extract and copy mpo_nx/ to sdmc:/switch/mpo_nx/\n" +
+        "Copy your Origins APK into that folder as game.apk\n" +
         "Full RAM launch (hold R) or Forwarder"
     );
     setStatus("Downloaded. See How to install for instructions.");
