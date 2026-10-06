@@ -10,7 +10,7 @@
 > [!IMPORTANT]
 > This repository contains **only the Switch wrapper** - no game data and no GameMaker runner binary. You must supply those yourself.
 
-## Installation
+## 💿 Installation
 
 You need:
 
@@ -100,7 +100,7 @@ sdmc:/switch/mpo_nx/
 <img width="700" alt="NX Options Menu" src="https://github.com/user-attachments/assets/cc7ba2a7-11c0-41e0-bc64-6a4019ee96b7" />
 <br>
 
-## ⚙ Configuration (`config.txt`)
+## 🔧 Configuration (`config.txt`)
 
 | Key | Default | Notes |
 |-----|---------|-------|
@@ -117,24 +117,13 @@ sdmc:/switch/mpo_nx/
 > [!TIP]
 > **In-game:** press **L3 + R3** to open **NX Options**. Toggle FPS / VSync / clocks / resolution (changes written to `config.txt`).
 
-## Performance
+## 🌡 Performance
 
 As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with Lv.4 to release the Android version), this allows for 100% full speed except in some rooms with many sprites. It is 100% playable, enjoy! 
 
 **UPDATE:** As of v1.1.2d preformance has been significantly improved and maintains a solid 50-60fps in areas that used to have slow down. 
 
-## Building from source
-
-Requires [devkitPro](https://devkitpro.org/). See [BUILD.md](BUILD.md).
-
-```bash
-pacman -S --needed switch-dev switch-sdl2 switch-mesa switch-libdrm_nouveau switch-freetype switch-libpng switch-ffmpeg
-make
-```
-
-Produces `mpo_nx.nro`.
-
-## Credits
+## 🎣 Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
 - Metroid Prime Origins by Lv.4 Games (fan project). Not affiliated.
