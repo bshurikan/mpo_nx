@@ -10,7 +10,6 @@
 > [!IMPORTANT]
 > This repository contains **only the Switch wrapper** - no game data and no GameMaker runner binary. You must supply those yourself.
 
----
 ## 💿 Installation
 
 You need:
@@ -84,7 +83,7 @@ sdmc:/switch/mpo_nx/
     ├── sdl2.txt
     └── ...
 ```
-
+---
 ## 🎮 Controls
 
 | Switch Input | Action |
@@ -99,7 +98,7 @@ sdmc:/switch/mpo_nx/
 <br>
 <img width="700" alt="NX Options Menu" src="https://github.com/user-attachments/assets/cc7ba2a7-11c0-41e0-bc64-6a4019ee96b7" />
 <br>
-
+---
 ## 🔧 Configuration
 
 | Key | Default | Notes |
@@ -116,13 +115,13 @@ sdmc:/switch/mpo_nx/
 
 > [!TIP]
 > **In-game:** press **L3 + R3** to open **NX Options**. Toggle FPS / VSync / clocks / resolution (changes written to `config.txt`).
-
+---
 ## 🌡 Performance
 
 As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with Lv.4 to release the Android version), this allows for 100% full speed except in some rooms with many sprites. It is 100% playable, enjoy! 
 
 **UPDATE:** As of v1.1.2d preformance has been significantly improved and maintains a solid 50-60fps in areas that used to have slow down. 
-
+---
 ## 🙏 Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
