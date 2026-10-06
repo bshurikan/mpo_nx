@@ -121,7 +121,7 @@ sdmc:/switch/mpo_nx/
 As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with Lv.4 to release the Android version), this allows for 100% full speed except in some rooms with many sprites. It is 100% playable, enjoy! 
 
 > [!NOTE]
-> **UPDATE:** As of v1.1.2d preformance has been significantly improved and maintains a solid 50-60fps in areas that used to have slow down. 
+> As of v1.1.2d performance has been significantly improved and maintains a solid 50-60fps for silky smooth gameplay in areas that used to have slow down like Tallon Canyon, Phendrana Shorelines, Fungal Hall B and Metroid Nursery. 
 
 ## 👾 Credits
 
