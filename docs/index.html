@@ -22,10 +22,9 @@
     <canvas id="bg" aria-hidden="true"></canvas>
     <div class="app">
       <header class="brand">
-        <a href="https://github.com/bshurikan/mpo_nx"><img class="logo" src="./assets/icon.png" width="120" height="120" alt="Metroid Prime Origins NX" /></a>
+        <a href="https://github.com/bshurikan/mpo_nx"><img class="logo" src="./assets/icon.png" width="256" height="256" alt="Metroid Prime Origins NX" /></a>
         <h1>Switch Port Generator</h1>
-        <p class="lede">You bring the official Origins 1.1.2 APK. We overlay the NX update pack.</p>
-        <p class="lede">Nothing leaves your device.</p>
+        <p class="lede">The official APK. Rebuilt for NX.</p>
         <div class="brand-controls">
           <button type="button" id="bg-cycle" class="bg-cycle switch-focus-ring">Background: constellation</button>
           <button type="button" id="mute" class="bg-cycle switch-focus-ring" aria-pressed="false">Sound: on</button>
@@ -40,7 +39,8 @@
             </div>
             <button class="linkish switch-focus-ring" type="button" id="help-open">How to install</button>
           </div>
-          <button class="drop switch-focus-ring" type="button" id="drop" aria-label="Choose Origins APK">
+          <button class="drop switch-focus-ring force-field" type="button" id="drop" aria-label="Choose Origins APK">
+            <span class="force-field-glow" aria-hidden="true"></span>
             <div class="drop-stage">
               <canvas id="metroid" width="69" height="69" aria-hidden="true"></canvas>
             </div>
@@ -70,23 +70,30 @@
       <div class="bar-track" aria-hidden="true">
         <div class="bar-fill" id="progress-bar"></div>
       </div>
-      <div id="progress-log" class="progress-log" aria-live="polite">
+      <div id="progress-log" class="progress-log crt" aria-live="polite">
+        <div class="crt-scanlines" aria-hidden="true"></div>
+        <div class="crt-glow" aria-hidden="true"></div>
         <div class="console-viewport" id="console-viewport"></div>
       </div>
-      <div class="dialog-actions">
-        <button class="primary compact switch-focus-ring" id="progress-close" type="button" hidden>Close</button>
+      <div class="dialog-actions progress-actions">
+        <button class="primary compact switch-focus-ring" id="progress-download" type="button" disabled>Download</button>
+        <button class="ghost compact switch-focus-ring" id="progress-close" type="button" hidden>Close</button>
       </div>
+      <label class="progress-auto">
+        <input type="checkbox" id="auto-download" />
+        <span class="progress-auto-box" aria-hidden="true"></span>
+        <span class="progress-auto-label">Auto Download when ready</span>
+      </label>
     </dialog>
 
     <dialog id="help">
       <h3>How to install</h3>
       <div id="help-body">
         <p>1. Drop the <strong>official Origins 1.1.2 APK</strong> (stock only).</p>
-        <p>2. Click <strong>Prepare SD</strong>.</p>
+        <p>2. Click <strong>Prepare SD</strong> (zip includes <code>game.apk</code>).</p>
         <p>3. Extract the zip and copy <code>mpo_nx/</code> to:</p>
         <pre>sdmc:/switch/mpo_nx/</pre>
-        <p>4. Copy that same APK into the folder as <code>game.apk</code>.</p>
-        <p>5. Launch <code>mpo_nx.nro</code> with <strong>full RAM</strong> (hold <strong>R</strong>).</p>
+        <p>4. Launch <code>mpo_nx.nro</code> with <strong>full RAM</strong> (hold <strong>R</strong>).</p>
         <p><strong>L3 + R3</strong> opens NX Options (teleport, aspect ratio, etc.).</p>
       </div>
       <div class="dialog-actions">

@@ -9,9 +9,18 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+function entrySize(data) {
+  if (!data) return 0;
+  if (typeof data.size === "number") return data.size; /* Blob / File */
+  return data.byteLength || data.length || 0;
+}
+
+function crcByte(c, byte) {
+  return CRC_TABLE[(c ^ byte) & 0xff] ^ (c >>> 8);
+}
+
 /**
  * CRC in multi-MB inner loops (fast) with yields + optional progress between chunks.
- * Per-byte await was still too heavy on a 238MB game.apk.
  */
 async function crc32Async(bytes, onChunk) {
   let c = 0xffffffff;
@@ -19,13 +28,50 @@ async function crc32Async(bytes, onChunk) {
   const total = bytes.length || 1;
   for (let i = 0; i < bytes.length; i += chunk) {
     const end = Math.min(i + chunk, bytes.length);
-    for (let j = i; j < end; j++) {
-      c = CRC_TABLE[(c ^ bytes[j]) & 0xff] ^ (c >>> 8);
-    }
+    for (let j = i; j < end; j++) c = crcByte(c, bytes[j]);
     if (onChunk) onChunk(Math.min(1, end / total));
     await sleep(0);
   }
   return (c ^ 0xffffffff) >>> 0;
+}
+
+/**
+ * CRC a Blob/File in chunks without copying the whole thing into one Uint8Array.
+ * Uses the disk-backed File stream when available.
+ */
+async function crc32BlobAsync(blob, onChunk) {
+  let c = 0xffffffff;
+  const total = blob.size || 1;
+  let done = 0;
+
+  if (typeof blob.stream === "function") {
+    const reader = blob.stream().getReader();
+    for (;;) {
+      const { value, done: eof } = await reader.read();
+      if (eof) break;
+      const bytes = value;
+      for (let j = 0; j < bytes.length; j++) c = crcByte(c, bytes[j]);
+      done += bytes.length;
+      if (onChunk) onChunk(Math.min(1, done / total));
+      await sleep(0);
+    }
+  } else {
+    const chunk = 2 * 1024 * 1024;
+    for (let i = 0; i < blob.size; i += chunk) {
+      const end = Math.min(i + chunk, blob.size);
+      const bytes = new Uint8Array(await blob.slice(i, end).arrayBuffer());
+      for (let j = 0; j < bytes.length; j++) c = crcByte(c, bytes[j]);
+      done = end;
+      if (onChunk) onChunk(Math.min(1, done / total));
+      await sleep(0);
+    }
+  }
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+async function crc32Entry(data, onChunk) {
+  if (data instanceof Blob) return crc32BlobAsync(data, onChunk);
+  return crc32Async(data, onChunk);
 }
 
 function dosTime(date = new Date()) {
@@ -44,30 +90,19 @@ function utf8(str) {
   return new TextEncoder().encode(str);
 }
 
-function u16(n) {
-  const b = new Uint8Array(2);
-  new DataView(b.buffer).setUint16(0, n, true);
-  return b;
-}
-
-function u32(n) {
-  const b = new Uint8Array(4);
-  new DataView(b.buffer).setUint32(0, n, true);
-  return b;
-}
-
 /**
- * Build a ZIP as a Blob — file payloads are referenced, not copied into one giant buffer.
- * That keeps peak RAM roughly “input size” instead of 2–3× during assemble.
+ * Build a ZIP as a Blob. Payloads may be Uint8Array or Blob/File.
+ * Blob/File parts are referenced (not memcpy'd), so a disk-backed APK can be
+ * embedded as game.apk without holding a second full copy in JS RAM.
  *
- * @param {Record<string, Uint8Array>} files
+ * @param {Record<string, Uint8Array|Blob>} files
  * @param {(msg: string, frac: number) => void} [onProgress] frac 0..1 across all bytes
  * @returns {Promise<Blob>}
  */
 export async function buildZip(files, onProgress) {
   const now = dosTime();
   const names = Object.keys(files).sort();
-  const totalBytes = names.reduce((n, name) => n + (files[name]?.length || 0), 0) || 1;
+  const totalBytes = names.reduce((n, name) => n + entrySize(files[name]), 0) || 1;
   let doneBytes = 0;
 
   const parts = [];
@@ -77,6 +112,7 @@ export async function buildZip(files, onProgress) {
   for (let n = 0; n < names.length; n++) {
     const name = names[n];
     const data = files[name];
+    const size = entrySize(data);
     const nameBytes = utf8(name);
     const short = name.replace(/^mpo_nx\//, "");
 
@@ -84,14 +120,14 @@ export async function buildZip(files, onProgress) {
       onProgress(`Assembling SD image - hashing ${short}...`, doneBytes / totalBytes);
     }
 
-    const crc = await crc32Async(data, (frac) => {
+    const crc = await crc32Entry(data, (frac) => {
       if (onProgress) {
-        const overall = (doneBytes + frac * data.length) / totalBytes;
+        const overall = (doneBytes + frac * size) / totalBytes;
         onProgress(`Assembling SD image - hashing ${short}...`, overall);
       }
     });
 
-    /* Local file header only — payload appended by reference (no memcpy). */
+    /* Local file header only - payload appended by reference (no memcpy). */
     const localHead = new Uint8Array(30 + nameBytes.length);
     const view = new DataView(localHead.buffer);
     view.setUint32(0, 0x04034b50, true);
@@ -100,8 +136,8 @@ export async function buildZip(files, onProgress) {
     view.setUint16(10, now.t, true);
     view.setUint16(12, now.d, true);
     view.setUint32(14, crc, true);
-    view.setUint32(18, data.length, true);
-    view.setUint32(22, data.length, true);
+    view.setUint32(18, size, true);
+    view.setUint32(22, size, true);
     view.setUint16(26, nameBytes.length, true);
     localHead.set(nameBytes, 30);
 
@@ -116,15 +152,15 @@ export async function buildZip(files, onProgress) {
     cv.setUint16(12, now.t, true);
     cv.setUint16(14, now.d, true);
     cv.setUint32(16, crc, true);
-    cv.setUint32(20, data.length, true);
-    cv.setUint32(24, data.length, true);
+    cv.setUint32(20, size, true);
+    cv.setUint32(24, size, true);
     cv.setUint16(28, nameBytes.length, true);
     cv.setUint32(42, offset, true);
     central.set(nameBytes, 46);
     centrals.push(central);
 
-    offset += localHead.length + data.length;
-    doneBytes += data.length;
+    offset += localHead.length + size;
+    doneBytes += size;
     if (onProgress) {
       onProgress(`Assembling SD image - packed ${short}`, doneBytes / totalBytes);
     }

@@ -33,10 +33,13 @@ const progressMsg = document.getElementById("progress-msg");
 const progressLog = document.getElementById("progress-log");
 const consoleViewport = document.getElementById("console-viewport");
 const progressClose = document.getElementById("progress-close");
+const progressDownload = document.getElementById("progress-download");
+const autoDownloadEl = document.getElementById("auto-download");
 const metroidCanvas = document.getElementById("metroid");
 
 let apkFile = null;
 let muted = localStorage.getItem("mpo_prep_mute") === "1";
+let autoDownload = localStorage.getItem("mpo_prep_autodl") === "1";
 let flavorRunId = 0;
 let flavorTimer = null;
 let flavorIdx = 0;
@@ -44,6 +47,8 @@ let consoleRunId = 0;
 let consoleQueue = [];
 let consolePumping = false;
 let jobActive = false;
+let pendingZip = null;
+let pendingFilename = "";
 
 const sfx = {
   metroid: new Audio("./assets/sfx/metroid.wav"),
@@ -366,9 +371,22 @@ function setProgress(msg, pct) {
   enqueueConsole(msg);
 }
 
+function setDownloadReady(zip, filename) {
+  pendingZip = zip;
+  pendingFilename = filename || "mpo_nx.zip";
+  progressDownload.disabled = !zip;
+}
+
+function triggerPendingDownload() {
+  if (!pendingZip) return;
+  downloadBlob(pendingZip, pendingFilename);
+  setStatus("Downloaded. See How to install for instructions.");
+}
+
 function openProgress() {
   progressBar.style.width = "0%";
   progressClose.hidden = true;
+  setDownloadReady(null, "");
   jobActive = true;
   lastConsoleMsg = "";
   stopConsole();
@@ -386,7 +404,19 @@ function closeProgressSoon() {
   progressClose.hidden = false;
 }
 
+if (autoDownloadEl) {
+  autoDownloadEl.checked = autoDownload;
+  autoDownloadEl.addEventListener("change", () => {
+    autoDownload = !!autoDownloadEl.checked;
+    localStorage.setItem("mpo_prep_autodl", autoDownload ? "1" : "0");
+  });
+}
+
 progressClose.addEventListener("click", () => progressDlg.close());
+progressDownload.addEventListener("click", () => {
+  if (progressDownload.disabled) return;
+  triggerPendingDownload();
+});
 
 createBtn.addEventListener("click", async () => {
   if (!apkFile || createBtn.disabled) return;
@@ -397,21 +427,25 @@ createBtn.addEventListener("click", async () => {
     jobActive = false;
     stopFlavorTop();
     progressMsg.textContent = "Mission complete.";
-    play("logbook");
-    downloadBlob(zip, filename);
+    setDownloadReady(zip, filename);
     progressBar.style.width = "100%";
+    if (autoDownload) {
+      triggerPendingDownload();
+    } else {
+      setStatus("Package ready. Press Download when you want the zip.");
+    }
     await flushConsoleThen(
       "Extract and copy mpo_nx/ to sdmc:/switch/mpo_nx/\n" +
-        "Copy your Origins APK into that folder as game.apk\n" +
+        "game.apk is already in the zip\n" +
         "Full RAM launch (hold R) or Forwarder"
     );
-    setStatus("Downloaded. See How to install for instructions.");
   } catch (err) {
     console.error(err);
     jobActive = false;
     stopFlavorTop();
     progressMsg.textContent = "Mission failed.";
     progressBar.style.width = "100%";
+    setDownloadReady(null, "");
     await flushConsoleThen(err.message || String(err));
     setStatus(err.message || String(err));
     play("metroid");

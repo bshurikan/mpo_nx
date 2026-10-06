@@ -151,7 +151,7 @@ export async function prepareSdPackage(apkFile, onProgress) {
   } catch (err) {
     throw new Error(`Could not read APK as zip: ${err.message || err}`);
   }
-  /* Raw APK buffer no longer needed (not shipped in the SD zip). */
+  /* Drop the inflate buffer; keep apkFile (disk-backed) to embed as game.apk later. */
   apkBuf = null;
   await tick();
 
@@ -218,9 +218,8 @@ export async function prepareSdPackage(apkFile, onProgress) {
   out["mpo_nx/sdl2.txt"] = new TextEncoder().encode(prepend);
   out["mpo_nx/libyoyo.so"] = updateLib;
   /*
-   * Do NOT embed game.apk in the download zip (~238MB). That dominated assemble
-   * time/RAM. User already has the APK — they copy it in as game.apk after extract.
-   * Loose libyoyo.so + assets/ (with updated game.droid) are what the update needs.
+   * Embed game.apk by referencing the user's File (disk-backed Blob) in the zip
+   * Blob — zip.js CRCs it in chunks and does not memcpy the whole APK again.
    */
 
   const assetKeys = Object.keys(apkFiles).filter(
@@ -255,15 +254,17 @@ export async function prepareSdPackage(apkFile, onProgress) {
     }
   }
 
-  /* Drop APK bytes so GC can reclaim ~238MB before zip assemble. */
+  /* Drop inflated APK entry map; loose assets already copied into out. */
   apkFiles = null;
 
   if (!out["mpo_nx/assets/sdl2.txt"]) {
     out["mpo_nx/assets/sdl2.txt"] = sdl2Root;
   }
   out["mpo_nx/assets/game.droid"] = updateDroid;
+  /* Original File object — streamed/CRC'd by reference into the download zip. */
+  out["mpo_nx/game.apk"] = apkFile;
 
-  await report("Assembling SD image. Log 99.prep.1 - zip in progress...", 88);
+  await report("Assembling SD image (includes game.apk)...", 88);
   await tick();
   const zipBlob = await buildZip(out, (msg, frac) => {
     const pct = 88 + Math.floor(Math.max(0, Math.min(1, frac)) * 11);
