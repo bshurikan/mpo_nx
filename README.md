@@ -51,6 +51,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 
 <details>
 <summary>Method B - Moderate (Manual any OS)</summary>
+   
 > **Important:** Manual installs do **not** apply the QOL mods. Prefer Method A NEW or OLD so `libyoyo.so` gets Ship teleport and Teleport order. Without the patch, the game still runs; just no mods.
 
 1. Extract **`mpo-switch-release.zip`**. You should have a **`mpo_nx/`** folder with:
