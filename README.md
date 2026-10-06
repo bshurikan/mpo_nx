@@ -19,7 +19,7 @@ Launch **`mpo_nx.nro`** with **full RAM** (hold **R**, or use a forwarder).
    
 ---
 
-### Method S - Super Easy (web app, any OS)
+### Method S - Easy (web app, any OS)
 
 Prepares Switch port and patches automatically. Nothing is uploaded; prep runs on your device.
 
