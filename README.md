@@ -27,8 +27,7 @@ Prepares Switch port and patches automatically. Nothing is uploaded; prep runs o
 2. Drop your **official Metroid Prime Origins Android APK v1.1.2**
 3. Click **Prepare SD** and download the zip
 4. Extract → copy `mpo_nx/` → `sdmc:/switch/mpo_nx/`
-5. Copy your Origins APK into that folder as `game.apk`
-6. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
+5. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
 
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f0a830?style=for-the-badge&logoColor=06080a)](https://bshurikan.github.io/mpo_nx/)
 
@@ -106,12 +105,13 @@ Editable on PC or via **L3+R3** NX Options (saves on close). Resolution needs a 
 | Key | Default | Notes |
 |-----|---------|-------|
 | `show_fps` | `1` | On-screen FPS |
-| `vsync` | `0` | Keep off |
+| `vsync` | `1` | Harmless |
 | `docked_clocks` | `1` | Higher GPU in handheld when allowed |
-| `handheld_docked` | `0` | Force official docked 768 MHz while undocked |
-| `menu_bg` / `menu_transparency` | Drift / 15 | NX Options backdrop |
-| `ship_teleport` | `0` | Landing Site ship as teleport destination |
-| `teleport_order` | `0` | `0` discovery, `1` Organized (menu only) |
+| `aspect_ratio` | `1` | 0=Original 4:3 (letterboxed) 1=Stretched 16:9 (distorted) |
+| `handheld_docked` | `1` | Force official docked 768 MHz while undocked |
+| `menu_bg` / `menu_transparency` | Constellation / 0 | NX Options backdrop |
+| `ship_teleport` | `1` | Landing Site ship as teleport destination |
+| `teleport_order` | `1` | `0` discovery, `1` Organized (menu only) |
 | `input_profile` | `1` | YYC / Input 10 |
 
 In-game: press **L3 + R3** to open **NX Options**. Toggle FPS / VSync / clocks / resolution — changes write to `config.txt`.
