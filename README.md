@@ -28,7 +28,7 @@ You need:
 5. Launch `mpo_nx.nro` with **full RAM** (hold **R**, or use a forwarder)
 
 [![Open Switch Port Generator](https://img.shields.io/badge/Open_Switch_Port_Generator-f2b040?style=for-the-badge)](https://bshurikan.github.io/mpo_nx/)
-
+<!--
 ---
 
 <details>
@@ -67,7 +67,7 @@ You need:
 </details>
 
 ---
-
+-->
 Final layout:
 
 ```
