@@ -75,9 +75,9 @@ sdmc:/switch/mpo_nx/
 ├── gamecontrollerdb.txt
 ├── sdl2.txt
 ├── game.apk                 ← your Origins Android YYC APK (renamed)
-├── libyoyo.so               ← from APK lib/arm64-v8a/
+├── libyoyo.so               ← from Switch Port Generator
 └── assets/                  ← from APK assets/ (+ sdl2.txt overwrite)
-    ├── game.droid
+    ├── game.droid.          ← from Switch Port Generator
     ├── sdl2.txt
     └── ...
 ```
