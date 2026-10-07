@@ -89,7 +89,7 @@ sdmc:/switch/mpo_nx/
 | **D-pad / Left stick** | Move / menus |
 | **Face buttons** | A accept/Morph ball, B cancel/Jump, X Missile, Y Beam |
 | **L / R** | Free Aim / Aim Lock |
-| **LT / RT** | Scan / Grapple |
+| **LT / RT** | Scan / Grapple Beam |
 | **Minus (−)** | Map |
 | **Plus (+)** | Menu / pause |
 | **Right stick / L3** | Switch Beams |
