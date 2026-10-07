@@ -99,7 +99,7 @@ sdmc:/switch/mpo_nx/
 <img width="700" alt="NX Options Menu" src="https://github.com/user-attachments/assets/cc7ba2a7-11c0-41e0-bc64-6a4019ee96b7" />
 
 > [!TIP]
-> Press ress **L3 + R3** to open **NX Options**. Toggle FPS / Aspect Ratio / Mods and more (changes written to `config.txt`).
+> Press **L3 + R3** to open **NX Options**. Toggle FPS / Aspect Ratio / Mods and more (changes written to `config.txt`).
 
 ## 🔧 Configuration
 
