@@ -86,11 +86,13 @@ sdmc:/switch/mpo_nx/
 
 | Switch Input | Action |
 |--------|--------|
-| D-pad / Left stick | Move / menus |
-| Face buttons | Origins defaults (A accept/jump, etc.) |
-| **ZL / ZR** | Scan / Grapple |
+| **D-pad / Left stick** | Move / menus |
+| **Face buttons** | A accept/Morph ball, B cancel/Jump, X Missile, Y Beam) |
+| **L / R** | Free Aim / Aim Lock |
+| **LT / RT** | Scan / Grapple |
 | **Minus (−)** | Map |
 | **Plus (+)** | Menu / pause |
+| **Right stick / L3** | Switch Beams |
 | **L3 + R3** | **NX Options** menu |
 
 <br>
