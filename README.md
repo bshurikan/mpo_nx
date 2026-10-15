@@ -4,7 +4,7 @@
   # Metroid Prime Origins
   ### Unofficial Nintendo Switch Homebrew Port
 
-_A wrapper/port of the acclaimed [Metroid Prime Origins fan game](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) by Lv.4 Games (GameMaker Studio 2 YYC)._
+_A wrapper/port of the acclaimed [fan game by Lv.4 Games](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (GameMaker Studio 2 YYC)._
 
 > [!IMPORTANT]
 > This repository contains **only the Switch wrapper** - no game data and no GameMaker runner binary. You must supply those yourself.
