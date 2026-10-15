@@ -1,9 +1,9 @@
 <div align="center">
 <img alt="MPO" src="docs/assets/icon.png" />
-</div>
 
   # Metroid Prime Origins
   ### Unofficial Nintendo Switch Homebrew Port
+</div>
 
 *A wrapper/port of the acclaimed [fan game by Lv.4 Games](https://www.reddit.com/r/Metroid/comments/1vhmcf8/metroid_prime_origins_new_fan_game_out_now/) (GameMaker Studio 2 YYC).*
 
