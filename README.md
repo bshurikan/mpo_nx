@@ -153,6 +153,6 @@ As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with
     <tr><td><strong>Post-release testing</strong></td><td>PROUTJV · Zekeram12 · Greggy · treeroot · Ori · Kohiiiiro · Tolsyak · Templar · Mewlif · TripleRyGuy · YomarutoM12+ · Bokyubi · Rockman · Linkshot</td></tr>
     <tr><td><strong>Tools / libraries</strong></td><td>Pixelated Pope (Retro Palette Swapper) · Ronen Ness (Pixelator) · Juju Adams, Alynne Keith, and Friends (Input 10.3 &amp; Scribble 9.0)</td></tr>
     <tr><td><strong>Special thanks</strong></td><td>The Metroid Fan Mission Survivors · The VG Resource · Metroid2002 · MetConst · Metroid Wiki · Wikitroid</td></tr>
-    <tr><td colspan="2" align="center"><em>METROID / METROID PRIME are property of Nintendo — Origins is a free fan-made tribute</em><br><strong>Produced by Lv.4 WALL · Presented by Lv.4 GAMES, 2026</strong></td></tr>
+    <tr><td colspan="2" align="center"><em>METROID / METROID PRIME are property of Nintendo - Origins is a free fan-made tribute</em><br><strong>Produced by Lv.4 WALL · Presented by Lv.4 GAMES, 2026</strong></td></tr>
   </tbody>
 </table>
