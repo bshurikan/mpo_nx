@@ -125,9 +125,10 @@ As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with
 
 ## 👾 Credits
 
-- **Metroid Prime Origins** is by **Lv.4 Games**. Fan-game credits below are from the in-game credits script (`scripts/credits/credits.gml` / Extras). In-game also scrolls original *Metroid Prime* studio staff acknowledgments (not repeated here).
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen) and [Castlevania ReVamped Switch](https://github.com/bshurikan/cvrevamped_nx)
+- **Metroid Prime Origins** is by **Lv.4 Games**. Fan-game credits below are from the in-game credits script (`scripts/credits/credits.gml` / Extras). In-game also scrolls original *Metroid Prime* studio staff acknowledgments (not repeated here).
 
+<br>
 <table>
   <thead>
     <tr><th colspan="2" align="left">Metroid Prime Origins Original Credits</th></tr>
