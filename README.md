@@ -125,6 +125,34 @@ As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with
 
 ## 👾 Credits
 
-- Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen).
-- Metroid Prime Origins by Lv.4 Games (fan project). Not affiliated.
-- Compatible VM runner sourced from Castlevania ReVamped Android (bytecode 17).
+- **Metroid Prime Origins** is by **Lv.4 Games**. Fan-game credits below are from the in-game credits script (`scripts/credits/credits.gml` / Extras). In-game also scrolls original *Metroid Prime* studio staff acknowledgments (not repeated here).
+- Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen) and [Castlevania ReVamped Switch](https://github.com/bshurikan/cvrevamped_nx)
+
+<table>
+  <thead>
+    <tr><th colspan="2" align="left">Metroid Prime Origins Original Credits</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Game &amp; level design</strong></td><td>Lv.4 WALL</td></tr>
+    <tr><td><strong>Sprite art + tile art</strong></td><td>Zevroid</td></tr>
+    <tr><td><strong>Sprite art</strong></td><td>Vectrex28</td></tr>
+    <tr><td><strong>Tile art</strong></td><td>Sarkuvaria</td></tr>
+    <tr><td><strong>Large pixel art</strong></td><td>Jacob Pavone</td></tr>
+    <tr><td><strong>Pixel art</strong></td><td>Shmegleskimo · hansungkee · ChaosMiles07 · SmithyGCN · Chris2Balls · ansimuz · Knoble Persona · Chipmunk · Wandering Spider · Evert · gandalfhardcore · Tango311 · Kenney · Tom93 · Momeg · MurphMario · Hydorah · Hackmi</td></tr>
+    <tr><td><strong>Logbook writing</strong></td><td>Ivan Perez · Lv.4 WALL · ChaosMiles07 · Zekeram12</td></tr>
+    <tr><td><strong>Sound effect art</strong></td><td>Bran</td></tr>
+    <tr><td><strong>Exclusive music</strong></td><td>Marcosrod314 · Loeder · Matias Sosa</td></tr>
+    <tr><td><strong>Music contributions</strong></td><td>Loeder · Bran · CrazyWazy</td></tr>
+    <tr><td><strong>Enemy design</strong></td><td>Lv.4 WALL · Zevroid</td></tr>
+    <tr><td><strong>Alpha testing</strong></td><td>Max Morrone · Jack Beauchamp · Marilyn Hannan · Funmi Somoye · DJ Cameron · Alyse Wells · Mike Okhuereigbe · Abby May</td></tr>
+    <tr><td><strong>Beta testing</strong></td><td>ChaosMiles07 · Ivan Perez · Jen Hiles · Jack Beauchamp · Abby May · Marilyn Hannan · Funmi Somoye · Max Morrone · Jordan Esperanza · CrazyWazy · Vectrex28 · Bran · Spriven · Nerdy Nester · Tenka · Dreamin' · Vacantshade · M3D · Zevroid</td></tr>
+    <tr><td><strong>Tile placement</strong></td><td>Marilyn “Yaoi Lord” Hannan · Lv.4 WALL</td></tr>
+    <tr><td><strong>Dependency analysis</strong></td><td>ChaosMiles07</td></tr>
+    <tr><td><strong>Input migration</strong></td><td>bshurikan</td></tr>
+    <tr><td><strong>Code assistance</strong></td><td>M3D · MagnaDev · Vacantshade · Scooterboot</td></tr>
+    <tr><td><strong>Post-release testing</strong></td><td>PROUTJV · Zekeram12 · Greggy · treeroot · Ori · Kohiiiiro · Tolsyak · Templar · Mewlif · TripleRyGuy · YomarutoM12+ · Bokyubi · Rockman · Linkshot</td></tr>
+    <tr><td><strong>Tools / libraries</strong></td><td>Pixelated Pope (Retro Palette Swapper) · Ronen Ness (Pixelator) · Juju Adams, Alynne Keith, and Friends (Input 10.3 &amp; Scribble 9.0)</td></tr>
+    <tr><td><strong>Special thanks</strong></td><td>The Metroid Fan Mission Survivors · The VG Resource · Metroid2002 · MetConst · Metroid Wiki · Wikitroid</td></tr>
+    <tr><td colspan="2" align="center"><em>METROID / METROID PRIME are property of Nintendo — Origins is a free fan-made tribute</em><br><strong>Produced by Lv.4 WALL · Presented by Lv.4 GAMES, 2026</strong></td></tr>
+  </tbody>
+</table>
