@@ -78,7 +78,7 @@ sdmc:/switch/mpo_nx/
 ├── game.apk                 ← your Origins Android YYC APK (renamed)
 ├── libyoyo.so               ← from Switch Port Generator
 └── assets/                  ← from APK assets/ (+ sdl2.txt overwrite)
-    ├── game.droid.          ← from Switch Port Generator
+    ├── game.droid           ← from Switch Port Generator
     ├── sdl2.txt
     └── ...
 ```
@@ -126,7 +126,7 @@ As of v1.1.0 this port uses YYC APK (I had the pleasure of working directly with
 ## 👾 Credits
 
 - Wrapper based on the Android GameMaker loader pattern (How Many Dudes / fgsfds, Andy Nguyen) and [Castlevania ReVamped Switch](https://github.com/bshurikan/cvrevamped_nx)
-- **Metroid Prime Origins** is by **Lv.4 Games**. Fan-game credits below are from the in-game credits script (`scripts/credits/credits.gml` / Extras). In-game also scrolls original *Metroid Prime* studio staff acknowledgments (not repeated here).
+- **Metroid Prime Origins** is by **Lv.4 Games**. Fan-game credits below are from in-game Extras → Credits. In-game also scrolls original *Metroid Prime* studio staff acknowledgments (not repeated here).
 
 <br>
 <table>
